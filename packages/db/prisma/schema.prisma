@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPERADMIN
+  ADMIN
+  USER
+}
+
+enum Platform {
+  CODEFORCES
+  CODECHEF
+  LEETCODE
+  ATCODER
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  password   String
+  username   String   @unique
+  name       String
+  avatar     String?
+  role       Role     @default(USER)
+  provider   String   @default("credentials")
+  providerId String?  @unique
+  createdAt  DateTime @default(now())
+  bookmarks Bookmark[]
+}
+
+
+
+model Contest {
+  id         Int      @id @default(autoincrement())
+  title      String
+  url        String
+  youtubeUrl String?
+  platform   Platform @default(CODEFORCES)
+  startsAt   Int
+  duration   Int
+  hasEnded   Boolean  @default(false)
+  bookmarks Bookmark[]
+}
+
+
+
+model Bookmark{
+  userId Int 
+  contestId Int
+  user User @relation(fields: [userId], references: [id])
+  contest Contest @relation(fields: [contestId], references: [id])
+  @@id([userId, contestId])
+}
