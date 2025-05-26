@@ -1,7 +1,7 @@
 {
   "name": "@repo/db",
   "exports":{
-    "./db": "./index.ts"
+    "./client": "./index.ts"
   },
   "module": "index.ts",
   "type": "module",

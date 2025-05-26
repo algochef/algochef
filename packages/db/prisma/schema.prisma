@@ -22,39 +22,36 @@ enum Platform {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  email      String   @unique
+  id         Int        @id @default(autoincrement())
+  email      String     @unique
   password   String
-  username   String   @unique
+  username   String     @unique
   name       String
   avatar     String?
-  role       Role     @default(USER)
-  provider   String   @default("credentials")
-  providerId String?  @unique
-  createdAt  DateTime @default(now())
-  bookmarks Bookmark[]
+  role       Role       @default(USER)
+  provider   String     @default("credentials")
+  providerId String?    @unique
+  createdAt  DateTime   @default(now())
+  bookmarks  Bookmark[]
 }
-
-
 
 model Contest {
-  id         Int      @id @default(autoincrement())
+  id         Int        @id @default(autoincrement())
   title      String
-  url        String
+  url        String     @unique
   youtubeUrl String?
-  platform   Platform @default(CODEFORCES)
+  platform   Platform   @default(CODEFORCES)
   startsAt   Int
   duration   Int
-  hasEnded   Boolean  @default(false)
-  bookmarks Bookmark[]
+  hasEnded   Boolean    @default(false)
+  bookmarks  Bookmark[]
 }
 
-
-
-model Bookmark{
-  userId Int 
+model Bookmark {
+  userId    Int
   contestId Int
-  user User @relation(fields: [userId], references: [id])
-  contest Contest @relation(fields: [contestId], references: [id])
+  user      User    @relation(fields: [userId], references: [id])
+  contest   Contest @relation(fields: [contestId], references: [id])
+
   @@id([userId, contestId])
 }
