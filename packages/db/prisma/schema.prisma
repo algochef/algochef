@@ -55,3 +55,47 @@ model Bookmark {
 
   @@id([userId, contestId])
 }
+
+enum DifficultyCategory{
+  EASY
+  MEDIUM
+  HARD
+}
+
+model Problem { 
+  id                 BigInt     @id @default(autoincrement())
+  platform           Platform   
+  problemCode        String
+  title              String
+  url                String
+  slug               String?
+  difficultyCategory DifficultyCategory?
+  difficultyNumeric  Int?
+  isActive           Boolean    @default(true)
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  tags               ProblemTag[]
+
+  @@unique([platform, problemCode])
+}
+
+model Tag {
+  id                 BigInt     @id @default(autoincrement())
+  name               String     @unique
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  problems           ProblemTag[]
+}
+
+model ProblemTag {
+  problemId          BigInt
+  tagId              BigInt
+  createdAt          DateTime    @default(now())
+
+  problem            Problem     @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  tag                Tag         @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([problemId, tagId])
+}
