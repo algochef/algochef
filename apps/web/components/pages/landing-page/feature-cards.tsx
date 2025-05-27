@@ -56,7 +56,7 @@ const features = [
 
 const FeatureCards = () => {
   return (
-    <div className='grid grid-cols-3 px-10 gap-2 my-4'>
+    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-10 gap-2 my-4'>
       {features.map((feature, index) => (
         <div className='hover:shadow-md rounded-sm transition-all transform ease-in-out duration-300 dark:bg-gradient-to-tl dark:from-blue-700/10 dark:to-gray-950/10'>
           <div className={`bg-gradient-to-br ${feature.gradient} rounded-sm p-1 text-gray-50 w-fit m-4`}>{feature.icon}</div>

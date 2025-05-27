@@ -6,6 +6,11 @@ export enum Platform {
 };
 
 
+export enum contestType{
+    UPCOMING="UPCOMING",
+    PAST="PAST"
+}
+
 
 export interface Contest{
     id?: number;

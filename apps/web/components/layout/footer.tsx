@@ -4,7 +4,7 @@ import React from 'react'
 const Footer = () => {
   return (
     <div className='flex flex-col items-center'>
-      <div className='w-11/12 h-[1px] bg-gray-300/40'></div>
+      <div className='w-11/12 h-[1px] bg-gray-300/20'></div>
       <div className='flex w-full items-center justify-between px-20 mt-4 mb-6'>
         <p className='text-xs text-gray-500'>&copy; 2025 AlgoChef.dev. All rights reserved.</p>
         <div className='flex space-x-3'>
