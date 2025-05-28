@@ -45,12 +45,13 @@ export const codechefTracker = async () => {
         for (const item of resData) {
             // console.log(item);
             const hasEnded = getUnixTime(item.contest_end_date) < curTime;
+            const duration = parseInt(item.contest_duration) * 60;
+            const startsAt = getUnixTime(item.contest_start_date);
             const newItem: Contest = {
-                hasEnded,
+                startsAt,
+                endsAt: startsAt+duration,
                 title: item.contest_name,
                 url: "https://www.codechef.com/" + item.contest_code,
-                startsAt: getUnixTime(item.contest_start_date),
-                duration: parseInt(item.contest_duration) * 60,
                 platform: Platform.CODECHEF
             }
             // contests.push(newItem);

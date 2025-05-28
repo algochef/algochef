@@ -27,18 +27,17 @@ export async function fetchContestList(type: ContestType = 'upcoming'): Promise<
                 const startsAt = getUnixTime($(el).find('td:nth-child(1)').text().trim());
                 const title = $(el).find('td:nth-child(2) a').text().trim();
                 const duration = $(el).find('td:nth-child(3)').text().trim();
-                const seconds = parseInt(duration.split(":")[0]) * 60 + parseInt(duration.split(":")[1]);
+                const seconds = parseInt(duration.split(":")[0]) * 3600 + parseInt(duration.split(":")[1])*60;
                 const contestIdElement = $(el).find('td:nth-child(2) a').attr('href');
                 if (!contestIdElement) continue;
                 const url = 'https://atcoder.jp' + contestIdElement;
 
                 const hasEnded = curTime > startsAt;
                 const newItem: Contest = {
-                    hasEnded,
                     title,
                     startsAt,
                     url,
-                    duration: seconds,
+                    endsAt: startsAt+seconds,
                     platform: Platform.ATCODER
                 };
                 try {
@@ -49,7 +48,7 @@ export async function fetchContestList(type: ContestType = 'upcoming'): Promise<
                 catch (err) {
                     console.log(newItem.title, " has already been added");
                 }
-                // console.log(newItem);
+                // console.log(seconds);
                 // contests.push(newItem);
             } catch (rowError) {
                 console.error('Error parsing contest row:', rowError);

@@ -97,12 +97,10 @@ export const leetcodeTracker = async () => {
         const curTime = Math.round(Date.now() / 1000);
         for (const item of resData) {
             const endsAt = (item.startTime + item.duration);
-            const hasEnded = endsAt < curTime;
             const newItem: Contest = {
-                hasEnded,
+                endsAt,
                 title: item.title,
                 platform: Platform.LEETCODE,
-                duration: item.duration,
                 startsAt: item.startTime,
                 url: "https://leetcode.com/contest/" + item.titleSlug,
             }
@@ -111,6 +109,7 @@ export const leetcodeTracker = async () => {
                 await prismaClient.contest.create({
                     data: newItem
                 });
+                console.log(newItem.title)
             }
             catch(err){
                 // console.log(newItem.title, " has already been added");

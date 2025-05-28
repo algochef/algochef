@@ -19,7 +19,7 @@ export interface Contest{
     youtubeUrl?: string;
     platform: Platform;
     startsAt: number;
-    duration: number;
+    endsAt: number;
     hasEnded?: boolean;
     isBookmarked?: boolean;
     isRunning?: boolean;
