@@ -2,7 +2,7 @@ import { TabsContent } from '@radix-ui/react-tabs'
 import React from 'react'
 import ContestCard from './contest-card'
 import { Contest, contestType as contestTypeEnum } from '@repo/types/contest'
-import getContests from '@/lib/contest-helpers/contests'
+import getContests from '@/lib/contest-helpers/contests-fetch'
 
 const LoadContests = async (
     { contestType = contestTypeEnum.UPCOMING }:
