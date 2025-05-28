@@ -10,18 +10,26 @@ export default async function getContests(
         limit?: number;
         contestType?: ContestTypeEnum
     }={}) {
-    const order = contestType === ContestTypeEnum.UPCOMING ? "desc" : "asc";
-    const hasEnded = contestType !== ContestTypeEnum.UPCOMING;
+    const order = contestType === ContestTypeEnum.UPCOMING ? "asc" : "desc";
+    const whereClause = contestType === ContestTypeEnum.UPCOMING?{
+        endsAt: {
+            gte: Math.round(Date.now()/1000)
+        }
+    }:{
+        endsAt:{
+            lt: Math.round(Date.now()/1000)
+        }
+    }
     const contests = await prismaClient.contest.findMany({
         skip: offset,
         take: limit,
-        where: {
-            hasEnded
-        },
+        where: whereClause,
         orderBy: {
             startsAt: order
         }
     })
-
+    // if(contestType===ContestTypeEnum.UPCOMING){
+    //     console.log(contests);
+    // }
     return contests;
 }

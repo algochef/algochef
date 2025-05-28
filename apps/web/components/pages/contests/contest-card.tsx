@@ -33,7 +33,7 @@ const ContestCard = (
 
     })
     const curTime  = Math.round(Date.now()/1000);
-    const endsAt = (contest.duration+contest.startsAt)
+    const endsAt = contest.endsAt;
     const hasEnded = endsAt<curTime;
 
     let startText = `Starts in ${formatDuration(endsAt-curTime)}`;
@@ -64,7 +64,7 @@ const ContestCard = (
             </div>
             <div className="flex space-x-2 items-center">
                 <Clock size={17} className="text-gray-500" />
-                <p className="text-sm tracking-tight">{formattedTime.toLocaleLowerCase()} • {formatDuration(contest.duration)}</p>
+                <p className="text-sm tracking-tight">{formattedTime.toLocaleLowerCase()} • {formatDuration(contest.endsAt-contest.startsAt)}</p>
             </div>
             <p className="tracking-tight border-[1px] border-gray-500/30 dark:border-gray-200/20 w-fit px-3 rounded-xl font-medium text-xs py-0.5">{startText}</p>
             <div className="w-full flex justify-end">

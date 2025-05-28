@@ -42,8 +42,7 @@ model Contest {
   youtubeUrl String?
   platform   Platform   @default(CODEFORCES)
   startsAt   Int
-  duration   Int
-  hasEnded   Boolean    @default(false)
+  endsAt     Int
   bookmarks  Bookmark[]
 }
 
