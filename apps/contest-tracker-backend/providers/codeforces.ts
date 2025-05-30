@@ -22,11 +22,10 @@ export const codeforcesTracker = async (): Promise<Contest[]> => {
 
             
             const newItem: Contest = {
-                hasEnded,
                 title: item.name,
                 url: 'https://codeforces.com/contest/' + item.id,
                 startsAt: item.startTimeSeconds,
-                duration: item.durationSeconds,
+                endsAt: item.durationSeconds+item.startTimeSeconds,
                 platform: Platform.CODEFORCES,
             }
             if(!hasEnded){

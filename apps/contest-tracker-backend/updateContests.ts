@@ -17,7 +17,6 @@ const updateDb = async () => {
 }
 
 
-
 (async()=>{
     await updateDb();
 })();
