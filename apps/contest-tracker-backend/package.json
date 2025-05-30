@@ -2,11 +2,16 @@
   "name": "contest-tracker-worker",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "update": "bun updateContests.ts"
+  },
   "private": true,
   "dependencies": {
     "@repo/db": "*",
     "@repo/types": "*",
-    "cheerio": "^1.0.0"
+    "@types/express": "^5.0.2",
+    "cheerio": "^1.0.0",
+    "express": "^5.1.0"
   },
   "devDependencies": {
     "@types/bun": "latest"
