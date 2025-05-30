@@ -1,12 +1,11 @@
 {
-  "name": "@repo/types",
-  "exports": {
-    "./contest": "./contest-types.ts",
-    "./problem": "./problem-types.ts"
-  },
+  "name": "problem-fetch-worker",
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "dev": "bun run index.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
