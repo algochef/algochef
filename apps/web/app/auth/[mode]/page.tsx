@@ -11,7 +11,6 @@ export default async function authPage({ params }: { params: { mode: string } })
         // user is already logged in, redirect to homepage
         redirect("/"); 
     }
-    console.log(await params.mode);
     const isLogin = (await params).mode === 'login';
     return (
         <div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
