@@ -1,15 +1,19 @@
 {
-  "name": "problem-fetch-worker",
+  "name": "oj-backend",
   "module": "index.ts",
   "type": "module",
   "private": true,
-  "scripts": {
-    "dev": "bun run index.ts"
-  },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "@repo/db": "*",
+    "@repo/types": "*",
+    "cheerio": "^1.0.0",
+    "hono": "^4.7.11",
+    "slugify": "^1.6.6"
   }
 }

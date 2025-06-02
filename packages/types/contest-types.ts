@@ -2,17 +2,18 @@ export enum Platform {
     CODEFORCES = "CODEFORCES",
     LEETCODE = "LEETCODE",
     CODECHEF = "CODECHEF",
-    ATCODER = "ATCODER"
+    ATCODER = "ATCODER",
+    CSES = "CSES",
 };
 
 
-export enum contestType{
-    UPCOMING="UPCOMING",
-    PAST="PAST"
+export enum contestType {
+    UPCOMING = "UPCOMING",
+    PAST = "PAST"
 }
 
 
-export interface Contest{
+export interface Contest {
     id?: number;
     title: string;
     url: string;

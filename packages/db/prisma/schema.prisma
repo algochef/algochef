@@ -19,20 +19,29 @@ enum Platform {
   CODECHEF
   LEETCODE
   ATCODER
+  CSES
+}
+
+enum DifficultyCategory {
+  EASY
+  MEDIUM
+  HARD
 }
 
 model User {
-  id         Int        @id @default(autoincrement())
-  email      String     @unique
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
   password   String
-  username   String     @unique
+  username   String      @unique
   name       String
   avatar     String?
-  role       Role       @default(USER)
-  provider   String     @default("credentials")
-  providerId String?    @unique
-  createdAt  DateTime   @default(now())
+  role       Role        @default(USER)
+  provider   String      @default("credentials")
+  providerId String?     @unique
+  createdAt  DateTime    @default(now())
+  oj_handles OjProfile[]
   bookmarks  Bookmark[]
+  solved     Solved[]
 }
 
 model Contest {
@@ -55,46 +64,72 @@ model Bookmark {
   @@id([userId, contestId])
 }
 
-enum DifficultyCategory{
-  EASY
-  MEDIUM
-  HARD
-}
-
-model Problem { 
-  id                 BigInt     @id @default(autoincrement())
-  platform           Platform   
-  problemCode        String
+model Problem {
+  id                 Int                    @id @default(autoincrement())
+  platform           Platform
+  problemCode        String                 @unique
   title              String
-  url                String
-  slug               String?
+  url                String                 @unique
+  slug               String
   difficultyCategory DifficultyCategory?
   difficultyNumeric  Int?
-  isActive           Boolean    @default(true)
-  createdAt          DateTime   @default(now())
-  updatedAt          DateTime   @updatedAt
-
-  tags               ProblemTag[]
-
-  @@unique([platform, problemCode])
+  createdAt          DateTime               @default(now())
+  updatedAt          DateTime               @updatedAt
+  solved             Solved[]
+  tags               TagsOnProblems[]
+  companyTags        CompanyTagOnProblems[]
 }
 
 model Tag {
-  id                 BigInt     @id @default(autoincrement())
-  name               String     @unique
-  createdAt          DateTime   @default(now())
-  updatedAt          DateTime   @updatedAt
-
-  problems           ProblemTag[]
+  id                   Int                    @id @default(autoincrement())
+  name                 String
+  slug                 String                 @unique
+  problems             TagsOnProblems[]
+  CompanyTagOnProblems CompanyTagOnProblems[]
 }
 
-model ProblemTag {
-  problemId          BigInt
-  tagId              BigInt
-  createdAt          DateTime    @default(now())
-
-  problem            Problem     @relation(fields: [problemId], references: [id], onDelete: Cascade)
-  tag                Tag         @relation(fields: [tagId], references: [id], onDelete: Cascade)
+model TagsOnProblems {
+  problemId Int
+  problem   Problem @relation(fields: [problemId], references: [id])
+  tagId     Int
+  tag       Tag     @relation(fields: [tagId], references: [id])
 
   @@id([problemId, tagId])
+}
+
+model CompanyTag {
+  id        Int                    @id @default(autoincrement())
+  name      String
+  slug      String                 @unique
+  problems  CompanyTagOnProblems[]
+  problemId Int?
+}
+
+model CompanyTagOnProblems {
+  problemId    Int
+  problem      Problem     @relation(fields: [problemId], references: [id])
+  companyId    Int
+  tag          Tag         @relation(fields: [companyId], references: [id])
+  CompanyTag   CompanyTag? @relation(fields: [companyTagId], references: [id])
+  companyTagId Int?
+
+  @@id([problemId, companyId])
+}
+
+model OjProfile {
+  id       Int     @id @default(autoincrement())
+  handle   String  @unique
+  userId   Int
+  user     User    @relation(fields: [userId], references: [id])
+  verified Boolean @default(false)
+}
+
+model Solved {
+  userId    Int
+  problemId Int
+  solvedAt  DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  problem   Problem  @relation(fields: [problemId], references: [id])
+
+  @@id([userId, problemId])
 }
