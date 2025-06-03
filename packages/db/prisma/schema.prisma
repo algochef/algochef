@@ -110,7 +110,7 @@ model CompanyTagOnProblems {
   problem      Problem     @relation(fields: [problemId], references: [id])
   companyId    Int
   tag          Tag         @relation(fields: [companyId], references: [id])
-  CompanyTag   CompanyTag? @relation(fields: [companyTagId], references: [id])
+  companyTag   CompanyTag? @relation(fields: [companyTagId], references: [id])
   companyTagId Int?
 
   @@id([problemId, companyId])

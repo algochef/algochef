@@ -2,7 +2,7 @@ import { Platform } from "@repo/types/contest";
 import type { Problem } from "@repo/types/problem";
 import { createSlug } from "../utils/create-slug";
 import * as cheerio from "cheerio";
-import { createTopicTag } from "../utils/create-topic-tags";
+import { createTopicTag } from "../utils/create-tags";
 
 
 
