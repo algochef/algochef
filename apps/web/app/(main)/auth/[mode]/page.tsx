@@ -2,7 +2,7 @@ import { GalleryVerticalEnd } from "lucide-react"
 import { LoginForm } from "@/components/login-form"
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/(main)/api/auth/[...nextauth]/route";
 
 export default async function authPage({ params }: { params: { mode: string } }) {
     const session = await getServerSession(authOptions);

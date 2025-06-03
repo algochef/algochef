@@ -18,6 +18,10 @@ const PlatformMap: Record<Platform, { path: string, fallback: string }> = {
         path: '/icons/atcoder.svg',
         fallback: 'ATC'
     },
+    "CSES": {
+        path: '/icons/cses.svg',
+        fallback: 'CSES'
+    },
 }
 
 export function getPlatformAvatar(platform: Platform) {
