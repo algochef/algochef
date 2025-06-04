@@ -21,13 +21,13 @@ export interface Problem{
 
 
 export interface Tag{
-  id: number;
+  id?: number;
   name: string;
   slug: string
 }
 
 export interface CompanyTag{
-  id: number;
+  id?: number;
   name: string;
   slug: string
 }
