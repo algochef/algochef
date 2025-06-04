@@ -85,12 +85,11 @@ model Tag {
   name                 String
   slug                 String                 @unique
   problems             TagsOnProblems[]
-  CompanyTagOnProblems CompanyTagOnProblems[]
 }
 
 model TagsOnProblems {
   problemId Int
-  problem   Problem @relation(fields: [problemId], references: [id])
+  problem   Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
   tagId     Int
   tag       Tag     @relation(fields: [tagId], references: [id])
 
@@ -107,13 +106,11 @@ model CompanyTag {
 
 model CompanyTagOnProblems {
   problemId    Int
-  problem      Problem     @relation(fields: [problemId], references: [id])
-  companyId    Int
-  tag          Tag         @relation(fields: [companyId], references: [id])
-  companyTag   CompanyTag? @relation(fields: [companyTagId], references: [id])
-  companyTagId Int?
+  companyTagId Int
+  problem      Problem     @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  companyTag   CompanyTag @relation(fields: [companyTagId], references: [id])
 
-  @@id([problemId, companyId])
+  @@id([problemId, companyTagId])
 }
 
 model OjProfile {
@@ -129,7 +126,7 @@ model Solved {
   problemId Int
   solvedAt  DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
-  problem   Problem  @relation(fields: [problemId], references: [id])
+  problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@id([userId, problemId])
 }

@@ -1,6 +1,7 @@
 import { Platform } from "@repo/types/contest";
 import { DifficultyCategory, type Problem } from "@repo/types/problem";
 import { createTopicTag } from "../utils/create-tags";
+import { getCompanyTags } from "../utils/parse-company-tag";
 
 
 
@@ -32,10 +33,10 @@ export const getLeetcodeProblemDetails = async (url: string) => {
             difficultyCategory = DifficultyCategory.MEDIUM;
         }
 
-        const tags: { name: string, slug: string }[] = resData.data.question.topicTags;
-        const tagIds = [];
-        for (const item of tags) {
-            tagIds.push(await createTopicTag(item.name));
+        const defaultTags: { name: string, slug: string }[] = resData.data.question.topicTags;
+        const tags = [];
+        for (const item of defaultTags) {
+            tags.push(await createTopicTag(item.name));
         }
 
         return {
@@ -45,7 +46,8 @@ export const getLeetcodeProblemDetails = async (url: string) => {
             slug: resData.data.question.titleSlug,
             problemCode: `LC${resData.data.question.questionId}`,
             platform: Platform.LEETCODE,
-            tags: tagIds
+            tags: tags,
+            companyTags: await getCompanyTags(resData.data.question.titleSlug)
         };
 
     }

@@ -14,7 +14,7 @@ export const createTopicTag = async (tag: string | undefined) => {
         }
     });
     if (existingTag) {
-        return existingTag.id;
+        return {name: existingTag.name, slug: existingTag.slug};
     }
     const newtag = await prismaClient.tag.create({
         data: {
@@ -22,7 +22,7 @@ export const createTopicTag = async (tag: string | undefined) => {
             name: trimmedTag,
         }
     })
-    return newtag.id;
+    return {name: newtag.name, slug: newtag.slug};
 }
 
 
@@ -39,7 +39,7 @@ export const createCompanyTag = async (tag: string | undefined) => {
         }
     });
     if (existingTag) {
-        return existingTag.id;
+        return {name: existingTag.name, slug: existingTag.slug};
     }
     const newtag = await prismaClient.companyTag.create({
         data: {
@@ -47,5 +47,5 @@ export const createCompanyTag = async (tag: string | undefined) => {
             name: trimmedTag,
         }
     })
-    return newtag.id;
+    return {name: newtag.name, slug: newtag.slug};
 }

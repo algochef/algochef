@@ -16,7 +16,7 @@ import {
   IconDeviceIpadQuestion,
   IconVs,
   IconFileSpreadsheet
-  
+
 } from "@tabler/icons-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -30,6 +30,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { getServerSession } from "next-auth"
+import { redirect } from "next/navigation"
 
 const data = {
   user: {
@@ -76,7 +78,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
+              <a href="/">
                 <IconInnerShadowTop className="!size-5" />
                 <span className="text-base font-semibold">AlgoChef</span>
               </a>
@@ -88,7 +90,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser/>
       </SidebarFooter>
     </Sidebar>
   )

@@ -28,17 +28,30 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { getSession } from "next-auth/react"
+import { useEffect, useState } from "react"
+import { Session } from "next-auth"
+import { Loader2 } from "lucide-react"
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string
-    email: string
-    avatar: string
-  }
-}) {
+export function NavUser() {
+  const [session, setSession] = useState<Session | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { isMobile } = useSidebar()
+  console.log(session);
+
+  useEffect(() => {
+    setIsLoading(true);
+    getSession().then(res => {
+      setSession(res);
+      setIsLoading(false);
+    })
+  }, [])
+
+  if (isLoading) {
+    return <div>
+      <Loader2 size={15} className="animate-spin" />
+    </div>
+  }
 
   return (
     <SidebarMenu>
@@ -50,13 +63,13 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarImage src={session?.user.image || ""} alt={(session?.user.name) || "Avatar"} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate font-medium">{session?.user.name}</span>
                 <span className="text-muted-foreground truncate text-xs">
-                  {user.email}
+                  {session?.user.email}
                 </span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
@@ -68,7 +81,7 @@ export function NavUser({
             align="end"
             sideOffset={4}
           >
-            
+
             <DropdownMenuItem>
               <IconLogout />
               Log out
