@@ -1,9 +1,4 @@
-export enum Platform{
-  CODEFORCES = "CODEFORCES",
-  LEETCODE = "LEETCODE",
-  CODECHEF = "CODECHEF",
-  ATCODER = "ATCODER",
-}
+import { Platform } from "./contest-types";
 
 export enum DifficultyCategory{
   EASY = "EASY",
@@ -20,6 +15,20 @@ export interface Problem{
   slug: string; 
   difficultyCategory?: DifficultyCategory; 
   difficultyNumeric?: number;
-  isActive: boolean;
-  tags?: string[];
+  tags?: Tag[];
+  companyTags?: CompanyTag[];
 };
+
+
+export interface Tag{
+  id?: number;
+  name: string;
+  slug: string
+}
+
+export interface CompanyTag{
+  id?: number;
+  name: string;
+  slug: string
+}
+
