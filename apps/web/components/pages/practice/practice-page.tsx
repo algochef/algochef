@@ -6,7 +6,7 @@ import Contents from './sidebar/middle/contents'
 const PracticePage = async () => {
     return (
         <div className='flex flex-col pt-16  items-center dark:bg-neutral-900/30'>
-            <div className='w-11/12  flex justify-between'>
+            <div className='w-11/12  flex justify-between space-x-2'>
                 <LeftSidebar />
                 <Contents />
                 <RightSidebar />

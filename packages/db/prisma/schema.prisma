@@ -39,7 +39,7 @@ model User {
   provider   String      @default("credentials")
   providerId String?     @unique
   createdAt  DateTime    @default(now())
-  oj_handles OjProfile[]
+  ojHandles  OjProfile[]
   bookmarks  Bookmark[]
   solved     Solved[]
 }
@@ -65,29 +65,30 @@ model Bookmark {
 }
 
 model Problem {
-  id                 Int                    @id @default(autoincrement())
+  id                 Int                   @id @default(autoincrement())
   platform           Platform
-  problemCode        String                 @unique
+  problemCode        String                @unique
   title              String
-  url                String                 @unique
+  url                String                @unique
   slug               String
   difficultyCategory DifficultyCategory?
   difficultyNumeric  Int?
-  createdAt          DateTime               @default(now())
-  updatedAt          DateTime               @updatedAt
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
   solved             Solved[]
-  tags               TagsOnProblems[]
-  companyTags        CompanyTagOnProblems[]
+  tags               TagsOnProblem[]
+  companyTags        CompanyTagOnProblem[]
+  sections           SectionOnProblem[]
 }
 
 model Tag {
-  id                   Int                    @id @default(autoincrement())
-  name                 String
-  slug                 String                 @unique
-  problems             TagsOnProblems[]
+  id       Int             @id @default(autoincrement())
+  name     String
+  slug     String          @unique
+  problems TagsOnProblem[]
 }
 
-model TagsOnProblems {
+model TagsOnProblem {
   problemId Int
   problem   Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
   tagId     Int
@@ -97,17 +98,17 @@ model TagsOnProblems {
 }
 
 model CompanyTag {
-  id        Int                    @id @default(autoincrement())
+  id        Int                   @id @default(autoincrement())
   name      String
-  slug      String                 @unique
-  problems  CompanyTagOnProblems[]
+  slug      String                @unique
+  problems  CompanyTagOnProblem[]
   problemId Int?
 }
 
-model CompanyTagOnProblems {
+model CompanyTagOnProblem {
   problemId    Int
   companyTagId Int
-  problem      Problem     @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  problem      Problem    @relation(fields: [problemId], references: [id], onDelete: Cascade)
   companyTag   CompanyTag @relation(fields: [companyTagId], references: [id])
 
   @@id([problemId, companyTagId])
@@ -129,4 +130,29 @@ model Solved {
   problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@id([userId, problemId])
+}
+
+model Sheet {
+  id          Int       @id @default(autoincrement())
+  title       String
+  slug        String    @unique @default(uuid())
+  description String?
+  section     Section[]
+}
+
+model Section {
+  id       Int                @id @default(autoincrement())
+  title    String
+  sheetId  Int
+  sheet    Sheet              @relation(fields: [sheetId], references: [id])
+  problems SectionOnProblem[]
+}
+
+model SectionOnProblem {
+  problemId Int
+  sectionId Int
+  problem   Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  section   Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@id([problemId, sectionId])
 }
