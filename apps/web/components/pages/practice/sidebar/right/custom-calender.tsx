@@ -60,30 +60,30 @@ const CustomCalender = () => {
         </tbody>
       </table>
       <div className='w-full h-[1px] bg-gray-300/40 dark:bg-gray-600/40 mb-2'></div>
-      <div className='flex justify-between items-center text-xs px-2 bg-gradient-to-b from-base via-orange-200/80 to-orange-400/80 dark:via-orange-400/20 dark:to-orange-800/60 rounded-md w-full py-4'>
+      <div className='flex justify-around items-center text-xs px-2 bg-gradient-to-b from-base via-orange-200/80 to-orange-400/80 dark:via-orange-400/20 dark:to-orange-800/60 rounded-md w-full py-4'>
         <div className='flex items-center flex-col justify-center'>
-          <h4>Current Streak</h4>
           <div className='flex space-x-2 items-center justify-center'>
             <Image
-              width={20}
-              height={20}
+              width={30}
+              height={30}
               alt="Flame"
               src="/icons/flame.svg"
             />
-            <p className='text-sm'>1</p>
+            <p className='text-3xl font-extrabold'>1</p>
           </div>
+          <h4>Current Streak</h4>
         </div>
         <div className='flex items-center flex-col'>
-          <h4>Max. Streak</h4>
           <div className='flex space-x-2 items-center justify-center'>
             <Image
-              width={16}
-              height={16}
+              width={24}
+              height={24}
               alt="Awards"
               src="/icons/award.svg"
             />
-            <p className='text-sm'>7</p>
+            <p className='text-3xl font-extrabold'>7</p>
           </div>
+          <h4>Max. Streak</h4>
         </div>
 
       </div>
