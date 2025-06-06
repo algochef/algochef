@@ -64,7 +64,6 @@ const ProblemsPage = async () => {
                                     return <h2 key={tag.slug} className='text-sm tracking-tighter  bg-gradient-to-t from-gray-300/50 to-gray-100/50 rounded-md px-2 py-0.5 text-gray-600 w-fit shadow border-[1px] h-fit'>
                                         <span className='flex space-x-1'>
                                             {/* TODO: ADD Company ICON */}
-                                            {/* {tag.slug === "google" && <Image src={googleIcon} width={15} height={15} alt='Google Icon' />} */}
                                             <p className='font-medium'>{tag.name}</p>
                                         </span>
                                     </h2>
