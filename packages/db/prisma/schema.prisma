@@ -42,6 +42,7 @@ model User {
   ojHandles  OjProfile[]
   bookmarks  Bookmark[]
   solved     Solved[]
+  sheet      Sheet[]
 }
 
 model Contest {
@@ -137,6 +138,8 @@ model Sheet {
   title       String
   slug        String    @unique @default(uuid())
   description String?
+  userId      Int
+  createdBy   User      @relation(fields: [userId], references: [id])
   section     Section[]
 }
 
@@ -144,7 +147,8 @@ model Section {
   id       Int                @id @default(autoincrement())
   title    String
   sheetId  Int
-  sheet    Sheet              @relation(fields: [sheetId], references: [id])
+  sheet    Sheet              @relation(fields: [sheetId], references: [id], onDelete: Cascade)
+  order    Int
   problems SectionOnProblem[]
 }
 

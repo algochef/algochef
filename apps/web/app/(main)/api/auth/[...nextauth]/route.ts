@@ -21,7 +21,7 @@ declare module "next-auth" {
     username: string
     name?: string
     email?: string
-    avatar?: string 
+    avatar?: string
   }
 }
 
@@ -80,7 +80,7 @@ export const authOptions: AuthOptions = {
               name: user.name,
               email: user.email,
               username: user.username,
-              avatar: user.avatar || undefined 
+              avatar: user.avatar || undefined
             };
           }
           catch (err) {
@@ -97,7 +97,7 @@ export const authOptions: AuthOptions = {
             name: existingUser.name,
             email: existingUser.email,
             username: existingUser.username,
-            avatar: existingUser.avatar || undefined 
+            avatar: existingUser.avatar || undefined
           };
         }
       }
@@ -120,6 +120,12 @@ export const authOptions: AuthOptions = {
     maxAge: 30 * 24 * 60 * 60 // 30 days
   },
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith('/')) return `${baseUrl}${url}`;
+      if (url.startsWith(baseUrl)) return url;
+      return baseUrl;
+    },
+
     async signIn({ user, account }) {
       if (account?.provider === 'credentials') {
         return true;
@@ -142,7 +148,7 @@ export const authOptions: AuthOptions = {
               name: user.name,
               email: user.email,
               username: user.email,
-              avatar: user.avatar || undefined, 
+              avatar: user.avatar || undefined,
               provider: account?.provider,
               providerId: account?.provider + "_" + account?.providerAccountId,
               password: "SSO"

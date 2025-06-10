@@ -1,34 +1,63 @@
 import { Platform } from "./contest-types";
 
-export enum DifficultyCategory{
+export enum DifficultyCategory {
   EASY = "EASY",
   MEDIUM = "MEDIUM",
   HARD = "HARD",
 }
 
-export interface Problem{
+export interface Problem {
   id?: number;
   platform: Platform;
-  problemCode: string; 
-  title: string; 
+  problemCode?: string;
+  title: string;
   url: string;
-  slug: string; 
-  difficultyCategory?: DifficultyCategory; 
+  solved?: boolean;
+  slug: string;
+  difficultyCategory?: DifficultyCategory;
   difficultyNumeric?: number;
   tags?: Tag[];
   companyTags?: CompanyTag[];
 };
 
 
-export interface Tag{
+export interface Tag {
   id?: number;
   name: string;
   slug: string
 }
 
-export interface CompanyTag{
+export interface CompanyTag {
   id?: number;
   name: string;
   slug: string
 }
 
+
+export interface Sheet {
+  id?: number;
+  title: string;
+  slug: string;
+  description?: string;
+  section: Section[];
+  createdBy?: {
+    name: string,
+    username: string,
+  };
+}
+
+
+export interface Section {
+  id?: number;
+  title: string;
+  order?: number;
+  problems: Problem[];
+  sheetId?: number;
+}
+
+
+export enum ProblemListType {
+  SHEET = "SHEET",
+  TAG = "TAG",
+  COMPANY = "COMPANY",
+}
