@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { getPlatformAvatar } from '@/lib/contest-helpers/platforms';
 import { fetchProblems } from '@/lib/problems-helpers/fetch-problems';
-import DifficultyLabel from '@/lib/problems-helpers/generateDifficultyLabel';
+import DifficultyLabel from '@/lib/problems-helpers/generate-difficulty-label';
 import { Problem } from '@repo/types/problem';
 import { IconCheck } from '@tabler/icons-react';
 import React from 'react'
