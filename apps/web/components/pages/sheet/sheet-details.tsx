@@ -23,7 +23,7 @@ const SheetDetails = ({ slug, userToken }: { slug: string, userToken: string | u
   // TODO: Update UI for error and loading state
   if (isFetching) {
     return <div className='m-auto'>
-      <Loader2 />
+      <Loader2 className='animate-spin'/>
     </div>
   }
   if (isError || !data) {
@@ -95,7 +95,7 @@ const SheetDetails = ({ slug, userToken }: { slug: string, userToken: string | u
 
   return (
     <>
-      <div className='rounded-md bg-gray-100/20 dark:bg-neutral-800/300 border-[1px]  flex-[1] h-fit'>
+      <div className='rounded-md bg-gray-100/20 dark:bg-neutral-800/30 border-[1px]  flex-[1] h-fit'>
         <div className='p-3'>
           <div className='p-2 bg-gray-200 dark:bg-neutral-800 rounded w-fit my-3'>
             <IconStarFilled size={40} />

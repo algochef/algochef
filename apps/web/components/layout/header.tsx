@@ -6,11 +6,18 @@ import { ModeToggle } from "../ui/theme-toggle"
 import Link from "next/link"
 import { signOut, useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { useIsMobile } from "@/hooks/use-mobile";
+import MobileNav from "./mobile-nav";
 
 const Header = () => {
   const { data: session, status } = useSession();
+  const isMobile = useIsMobile();
+  console.log(isMobile);
+  if (isMobile) {
+    return <MobileNav session={session} status={status}/>;
+  }
   return (
-    <div className="w-11/12 fixed top-0 left-0 right-0 z-50 mx-auto bg-gray-300/15 dark:bg-blue-300/5 backdrop-blur-xs h-16 flex justify-between items-center py-4 px-16 rounded-xl">
+    <div className="w-full mx-auto bg-gray-100/30 dark:bg-neutral-800/30 backdrop-blur-xs h-12 flex justify-between items-center py-4 px-16 border-b-[1px] z-1000">
       <nav className="flex items-center space-x-8">
         <p className="font-semibold">algochef.</p>
         <Link href={'/practice'} className="flex items-center space-x-1 text-sm text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100">
@@ -35,11 +42,11 @@ const Header = () => {
             <span>Profile</span>
           </li> */}
           <li>
-            <LogOut size={18} onClick={()=>signOut()} className="cursor-pointer"/>
+            <LogOut size={18} onClick={() => signOut()} className="cursor-pointer" />
           </li>
           <li>
             <Avatar>
-              <AvatarImage src={session.user.image || `https://ui-avatars.com/api/?name=${session.user.name}&background=0D8ABC&color=fff`} alt={`${session.user.name}'s DP`} className="w-10 h-10 rounded-full"/>
+              <AvatarImage src={session.user.image || `https://ui-avatars.com/api/?name=${session.user.name}&background=0D8ABC&color=fff`} alt={`${session.user.name}'s DP`} className="w-7 h-7 rounded-full" />
               {/* <AvatarFallback>{session.user.name}</AvatarFallback> */}
             </Avatar>
           </li>

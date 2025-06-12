@@ -6,6 +6,15 @@ export enum DifficultyCategory {
   HARD = "HARD",
 }
 
+export enum SheetTheme {
+  CYAN = "CYAN",
+  TEAL = "TEAL",
+  EMERALD = "EMERALD",
+  INDIGO = "INDIGO",
+  BLUE = "BLUE",
+  YELLOW = "YELLOW"
+}
+
 export interface Problem {
   id?: number;
   platform: Platform;
@@ -40,6 +49,7 @@ export interface Sheet {
   slug: string;
   description?: string;
   section: Section[];
+  theme: SheetTheme;
   createdBy?: {
     name: string,
     username: string,

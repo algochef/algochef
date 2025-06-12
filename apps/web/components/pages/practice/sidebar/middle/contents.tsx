@@ -14,7 +14,7 @@ const Contents = async () => {
     return (
         <div className='flex-[3] px-4'>
             <TagCloud/>
-            <div className='w-full h-[1.5px] bg-gray-300/60 my-4 dark:bg-gray-800'></div>
+            <div className='w-full h-[1.5px] bg-gray-100/30 my-4 dark:bg-neutral-800/30'></div>
             <SearchBox/>
             <div className='flex flex-col justify-center'>
                 {problems && problems.map(problem => {

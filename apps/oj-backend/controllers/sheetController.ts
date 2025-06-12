@@ -2,6 +2,7 @@ import { prismaClient } from "@repo/db/client";
 import type { Context } from "hono";
 import { z } from "zod";
 import { createSlug } from "../utils/create-slug";
+import { SheetTheme } from "@repo/types/problem";
 
 
 export const getSheets = async (c: Context) => {
@@ -45,6 +46,7 @@ export const getSheetsSections = async (c: Context) => {
             description: true,
             title: true,
             slug: true,
+            theme: true,
             createdBy: {
                 select: {
                     name: true,
@@ -149,10 +151,11 @@ export const getSheetsSections = async (c: Context) => {
 }
 
 export const postAddSheet = async (c: Context) => {
-    // TODO: Add zod
+    // TODO: Add logic to create unique slug
     const sheetSchema = z.object({
         title: z.string().nonempty("Sheet title can't be empty!"),
         description: z.string().optional(),
+        theme: z.nativeEnum(SheetTheme).describe("Invalid theme selected!").optional().default(SheetTheme.EMERALD),
         sections: z.array(z.object({
             title: z.string().nonempty("Section title can't be empty!"),
             problems: z.array(z.object({
@@ -180,6 +183,7 @@ export const postAddSheet = async (c: Context) => {
             title: res.data.title,
             description: res.data.description,
             slug: createSlug(res.data.title),
+            theme: res.data.theme,
             createdBy: {
                 connect: {
                     id: user.id

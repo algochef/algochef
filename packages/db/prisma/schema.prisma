@@ -28,6 +28,15 @@ enum DifficultyCategory {
   HARD
 }
 
+enum SheetTheme {
+  CYAN
+  TEAL
+  EMERALD
+  INDIGO
+  BLUE
+  YELLOW
+}
+
 model User {
   id         Int         @id @default(autoincrement())
   email      String      @unique
@@ -134,12 +143,13 @@ model Solved {
 }
 
 model Sheet {
-  id          Int       @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   title       String
-  slug        String    @unique @default(uuid())
+  slug        String     @unique @default(uuid())
   description String?
   userId      Int
-  createdBy   User      @relation(fields: [userId], references: [id])
+  theme       SheetTheme @default(INDIGO)
+  createdBy   User       @relation(fields: [userId], references: [id])
   section     Section[]
 }
 
