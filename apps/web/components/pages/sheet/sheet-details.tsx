@@ -1,14 +1,14 @@
 "use client"
 
-import { IconStar, IconStarFilled } from '@tabler/icons-react'
-import React, { useEffect, useState } from 'react'
+import { IconStarFilled } from '@tabler/icons-react'
+import React from 'react'
 import ProgressBar from './progress'
 import SheetProblemList from './sheet-problem-list'
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchSheetSections } from '@/lib/problems-helpers/fetch-sheet-sections'
 import { DifficultyCategory, Problem, Section, Sheet } from '@repo/types/problem'
 import { Loader2, OctagonAlert } from 'lucide-react'
-import { redirect, usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 
 
@@ -23,7 +23,7 @@ const SheetDetails = ({ slug, userToken }: { slug: string, userToken: string | u
   // TODO: Update UI for error and loading state
   if (isFetching) {
     return <div className='m-auto'>
-      <Loader2 className='animate-spin'/>
+      <Loader2 className='animate-spin' />
     </div>
   }
   if (isError || !data) {
