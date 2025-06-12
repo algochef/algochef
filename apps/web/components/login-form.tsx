@@ -13,12 +13,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { signIn } from "next-auth/react"
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 export function LoginForm({
   className,
   isLogin = true,
   ...props
 }: { isLogin?: boolean } & React.HTMLAttributes<HTMLDivElement>) {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -31,11 +34,11 @@ export function LoginForm({
         <CardContent>
           <div>
             <div className="flex flex-col gap-4">
-              <Button variant="outline" className="w-full" onClick={() => signIn('github')}>
+              <Button variant="outline" className="w-full cursor-pointer" onClick={() => signIn('github', { callbackUrl })}>
                 <Image src={'/icons/mono/github.svg'} alt="github icon" width={20} height={20} />
                 Login with Github
               </Button>
-              <Button variant="outline" className="w-full" onClick={() => signIn('google')}>
+              <Button variant="outline" className="w-full cursor-pointer" onClick={() => signIn('google', { callbackUrl })}>
                 <Image src={'/icons/mono/google.svg'} alt="google icon" width={20} height={20} />
                 Login with Google
               </Button>
