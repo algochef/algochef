@@ -29,7 +29,7 @@ const SheetProblemList = ({ sections, toggleSolveStatus }: { sections: Section[]
                         }
                     }
                     const progress = (totalProblems === 0 ? 0 : totalSolved / totalProblems) * 100;
-                    return <AccordionItem value={section.title}>
+                    return <AccordionItem value={section.title} key={section.id}>
                         <AccordionTrigger className="px-4 flex  justify-between">
                             <div>{section.title}</div>
                             <div className="flex w-[30%] justify-between items-center space-x-2">
@@ -40,7 +40,7 @@ const SheetProblemList = ({ sections, toggleSolveStatus }: { sections: Section[]
                         </AccordionTrigger>
                         <AccordionContent className="flex flex-col gap-4 text-balance my-1 justify-center items-center px-4">
                             {section && section.problems && section.problems.map(problem => {
-                                return <ProblemCard problem={problem} toggleSolveStatus={toggleSolveStatus} />
+                                return <ProblemCard key={problem.id} problem={problem} toggleSolveStatus={toggleSolveStatus} />
                             })}
                         </AccordionContent>
                     </AccordionItem>

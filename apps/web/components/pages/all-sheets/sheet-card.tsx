@@ -2,6 +2,7 @@
 
 import { Sheet } from '@repo/types/problem';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useState } from 'react'
 
 
@@ -39,7 +40,8 @@ const COLORS = {
 const SheetCard = ({ sheet }: { sheet: Sheet }) => {
     const [isHovered, setIsHovered] = useState(false);
     return (
-        <div
+        <Link
+            href={'/sheet/'+sheet.slug}
             key={sheet.slug}
             onMouseOver={() => {
                 setIsHovered(true);
@@ -57,7 +59,7 @@ const SheetCard = ({ sheet }: { sheet: Sheet }) => {
             <div className={`-rotate-45 absolute right-2 bottom-2 transform transition-all duration-200 ease-in-out z-0 w-[80px] h-[80px]  sm:w-[100px] sm:h-[100px] md:w-[120px] md:h-[120px] ${isHovered ? "scale-150" : ""}`}>
                 <Image src={COLORS[sheet.theme].icon} alt='icon' width={120} height={120} />
             </div>
-        </div>
+        </Link>
     )
 }
 

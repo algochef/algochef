@@ -1,4 +1,3 @@
-import Container from '@/components/layout/container'
 import AuthPage from '@/components/pages/auth-page/auth'
 import React from 'react'
 

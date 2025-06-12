@@ -1,26 +1,15 @@
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { Providers } from "@/lib/providers";
 import { Toaster } from "@/components/ui/sonner";
-import { AppSidebar } from "@/components/app-sidebar";
-// import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import CustomSidebar from "@/components/layout/custom-sidebar";
-import { SidebarProvider } from "@/components/layout/toggle-sidebar";
 
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
 
 const inter = Inter({
     variable: "--font-inter",
