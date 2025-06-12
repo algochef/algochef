@@ -1,10 +1,9 @@
+import Container from '@/components/layout/container'
 import PracticePage from '@/components/pages/practice/practice-page'
 import React from 'react'
 
 const Practice = async () => {
-  return (
-    <PracticePage />
-  )
+  return <PracticePage />;
 }
 
 export default Practice

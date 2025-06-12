@@ -3,6 +3,7 @@ import { cors } from "hono/cors";
 import problemRoutes from "./routes/problems";
 import { config } from "dotenv";
 import tagRoutes from "./routes/tags";
+import sheetRoutes from "./routes/sheet";
 
 config({path: './../../.env'})
 
@@ -12,6 +13,7 @@ export const app = new Hono();
 app.use(cors());
 app.route('/api/v1/', problemRoutes);
 app.route('/api/v1/', tagRoutes);
+app.route('/api/v1/', sheetRoutes);
 
 
 if (import.meta.main) {

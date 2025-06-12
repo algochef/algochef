@@ -6,6 +6,9 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { Providers } from "@/lib/providers";
 import { Toaster } from "@/components/ui/sonner";
+import CustomSidebar from "@/components/layout/custom-sidebar";
+import { SidebarProvider } from "@/components/layout/toggle-sidebar";
+import Container from "@/components/layout/container";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,9 +50,19 @@ export default function RootLayout({
         >
           <Providers>
             <Header />
-            <Toaster richColors position="bottom-center" />
-            {children}
-            <Footer />
+            <SidebarProvider>
+              <Toaster richColors position="top-center" />
+              <div className="flex mx-2 md:space-x-2 py-2 pt-18 md:pt-2">
+                <CustomSidebar />
+                <Container>
+                  <div className='flex px-3 space-x-3 my-2 min-h-screen'>
+                    {children}
+                  </div>
+                </Container>
+              </div>
+              <Footer />
+            </SidebarProvider>
+
           </Providers>
         </ThemeProvider>
       </body>
