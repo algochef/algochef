@@ -8,7 +8,7 @@ import ToogleTags from './toggle-tags';
 const TagCloud = async () => {
     const tags: (Tag & { count: number })[] = await fetchTags();
     return (
-        <div className='flex space-x-2 flex-wrap space-y-3 my-4 overflow-clip relative items-center'>
+        <div className='flex space-x-2 flex-wrap space-y-3 overflow-clip relative items-center'>
             <ToogleTags tags={tags} />
         </div>
     )
