@@ -10,8 +10,9 @@ import bcrypt from "bcryptjs"
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
-      id: number
-      username: string
+      id: number;
+      username: string;
+      avatar?: string;
     } & DefaultSession["user"]
   }
 
@@ -32,7 +33,7 @@ declare module "next-auth/jwt" {
     username: string
   }
 }
-
+// TODO: Handle github username issue
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
@@ -147,8 +148,8 @@ export const authOptions: AuthOptions = {
             data: {
               name: user.name,
               email: user.email,
-              username: user.email,
-              avatar: user.avatar || undefined,
+              username: user.username || user.email.split("@")[0],
+              avatar: user.image || undefined,
               provider: account?.provider,
               providerId: account?.provider + "_" + account?.providerAccountId,
               password: "SSO"
@@ -186,6 +187,14 @@ export const authOptions: AuthOptions = {
     //   }
     //   return session;
     // }
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id;
+        session.user.username = token.username;
+        session.user.avatar = token.image;
+      }
+      return session;
+    }
   },
   debug: true
 }

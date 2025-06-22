@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { getPlatformAvatar } from '@/lib/contest-helpers/platforms';
+import { GetPlatformAvatar } from '@/components/ui/platforms';
 import { fetchProblems } from '@/lib/problems-helpers/fetch-problems';
 import DifficultyLabel from '@/lib/problems-helpers/generate-difficulty-label';
 import { Problem } from '@repo/types/problem';
@@ -13,15 +13,15 @@ const Contents = async () => {
     console.log(problems);
     return (
         <div className='flex-[3] px-4'>
-            <TagCloud/>
+            <TagCloud />
             <div className='w-full h-[1.5px] bg-gray-100/30 my-4 dark:bg-neutral-800/30'></div>
-            <SearchBox/>
+            <SearchBox />
             <div className='flex flex-col justify-center'>
                 {problems && problems.map(problem => {
                     return <div className='flex justify-between px-8 odd:bg-gray-100/40 py-2 items-center rounded-md bg-white dark:bg-neutral-900/30 dark:odd:bg-neutral-800/50'>
                         <div className='flex space-x-2'>
                             <div className='flex'>
-                                {getPlatformAvatar(problem.platform)}
+                                <GetPlatformAvatar platform={problem.platform} />
                             </div>
                             <div>
                                 <IconCheck className='text-green-600' size={20} />

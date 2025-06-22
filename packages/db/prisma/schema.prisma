@@ -38,20 +38,34 @@ enum SheetTheme {
 }
 
 model User {
-  id         Int         @id @default(autoincrement())
-  email      String      @unique
-  password   String
-  username   String      @unique
-  name       String
-  avatar     String?
-  role       Role        @default(USER)
-  provider   String      @default("credentials")
-  providerId String?     @unique
-  createdAt  DateTime    @default(now())
-  ojHandles  OjProfile[]
-  bookmarks  Bookmark[]
-  solved     Solved[]
-  sheet      Sheet[]
+  id          Int         @id @default(autoincrement())
+  email       String      
+  password    String
+  username    String      @unique
+  name        String
+  avatar      String?
+  institution String?
+  role        Role        @default(USER)
+  provider    String      @default("credentials")
+  providerId  String?     @unique
+  createdAt   DateTime    @default(now())
+  ojHandles   OjProfile[]
+  bookmarks   Bookmark[]
+  solved      Solved[]
+  sheet       Sheet[]
+  social      Social?
+
+  @@unique([email, provider])
+}
+
+model Social {
+  userId       Int     @id
+  githubUrl    String?
+  linkedinUrl  String?
+  instagramUrl String?
+  portfolioUrl String?
+  twitterUrl   String?
+  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Contest {
@@ -68,8 +82,8 @@ model Contest {
 model Bookmark {
   userId    Int
   contestId Int
-  user      User    @relation(fields: [userId], references: [id])
-  contest   Contest @relation(fields: [contestId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contest   Contest @relation(fields: [contestId], references: [id], onDelete: Cascade)
 
   @@id([userId, contestId])
 }
@@ -102,7 +116,7 @@ model TagsOnProblem {
   problemId Int
   problem   Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
   tagId     Int
-  tag       Tag     @relation(fields: [tagId], references: [id])
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
   @@id([problemId, tagId])
 }
@@ -119,24 +133,28 @@ model CompanyTagOnProblem {
   problemId    Int
   companyTagId Int
   problem      Problem    @relation(fields: [problemId], references: [id], onDelete: Cascade)
-  companyTag   CompanyTag @relation(fields: [companyTagId], references: [id])
+  companyTag   CompanyTag @relation(fields: [companyTagId], references: [id], onDelete: Cascade)
 
   @@id([problemId, companyTagId])
 }
 
 model OjProfile {
-  id       Int     @id @default(autoincrement())
-  handle   String  @unique
+  id       Int      @id @default(autoincrement())
+  handle   String
   userId   Int
-  user     User    @relation(fields: [userId], references: [id])
-  verified Boolean @default(false)
+  platform Platform
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verified Boolean  @default(false)
+
+  @@unique([userId, platform])
+  @@unique([handle, platform])
 }
 
 model Solved {
   userId    Int
   problemId Int
   solvedAt  DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@id([userId, problemId])
@@ -149,7 +167,7 @@ model Sheet {
   description String?
   userId      Int
   theme       SheetTheme @default(INDIGO)
-  createdBy   User       @relation(fields: [userId], references: [id])
+  createdBy   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   section     Section[]
 }
 

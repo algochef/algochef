@@ -24,7 +24,7 @@ const PlatformMap: Record<Platform, { path: string, fallback: string }> = {
     },
 }
 
-export function getPlatformAvatar(platform: Platform) {
+export function GetPlatformAvatar({ platform }: { platform: Platform }) {
     const selectedPlatform = PlatformMap[platform];
     return (
         <div className="w-10 h-10">

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/avatar"
 import { Contest } from "@repo/types/contest"
 import { formatDuration } from "@/lib/timeFormatter"
-import { getPlatformAvatar } from "@/lib/contest-helpers/platforms"
+import { GetPlatformAvatar } from "@/components/ui/platforms"
 
 
 const ContestCard = (
@@ -46,7 +46,7 @@ const ContestCard = (
             <div className="flex justify-between">
                 <div className="flex items-center space-x-3">
                     <div>
-                        {getPlatformAvatar(contest.platform)}
+                        <GetPlatformAvatar platform={contest.platform}/>
                     </div>
                     <div className="flex flex-col">
                         <h3 className="font-semibold">{contest.title}</h3>

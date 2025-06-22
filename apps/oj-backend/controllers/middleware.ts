@@ -36,7 +36,6 @@ export const setUserAuthHeader = async (c: Context, next: Next) => {
         console.log(payload);
     }
     catch (err) {
-        
     }
     await next();
 }

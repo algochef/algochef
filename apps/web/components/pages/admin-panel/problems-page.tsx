@@ -1,9 +1,7 @@
-import { Button } from '@/components/ui/button'
 import { Edit, ExternalLink } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { getPlatformAvatar } from '@/lib/contest-helpers/platforms'
+import { GetPlatformAvatar } from '@/components/ui/platforms'
 import { Platform } from '@repo/types/contest'
 import DifficultyLabel from '@/lib/problems-helpers/generate-difficulty-label'
 import { DifficultyCategory, Problem } from '@repo/types/problem'
@@ -12,17 +10,17 @@ import { Pagination, PaginationContent, PaginationItem, PaginationNext, Paginati
 
 
 const OJ_BACKEND = "http://localhost:3001"
-const getProblems = async ()=>{
-    try{
-        const res = await fetch(OJ_BACKEND+"/api/v1/problems");
-        if(!res.ok){
+const getProblems = async () => {
+    try {
+        const res = await fetch(OJ_BACKEND + "/api/v1/problems");
+        if (!res.ok) {
             return [];
         }
         const resData = await res.json();
 
         return resData.results;
     }
-    catch(err){
+    catch (err) {
         console.log(err);
         return []
     }
@@ -46,7 +44,9 @@ const ProblemsPage = async () => {
                 return <div key={problem.slug} className='flex w-full space-x-3 rounded-md border-2 border-gray-500/10 justify-between my-2 p-4 '>
 
                     <div className='flex space-x-2 items-center'>
-                        <div className='w-fit flex-wrap'>{getPlatformAvatar(problem.platform as Platform)}</div>
+                        <div className='w-fit flex-wrap'>
+                            <GetPlatformAvatar platform={problem.platform as Platform} />
+                        </div>
                         <div className='flex flex-col space-y-1'>
                             <span>
                                 <span className='flex space-x-1'>

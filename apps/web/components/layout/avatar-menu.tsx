@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from '../ui/menubar'
 import { LogOut } from 'lucide-react'
 import Link from 'next/link'
+import { signOut } from 'next-auth/react'
 
 const AvatarMenu = ({ image, name }: { image: string | undefined | null, name: string }) => {
     return (
@@ -18,7 +19,7 @@ const AvatarMenu = ({ image, name }: { image: string | undefined | null, name: s
                     <MenubarItem>
                         <Link href={'/profile'}>Profile</Link>
                     </MenubarItem>
-                    <MenubarItem variant='destructive'>Logout<LogOut size={18}  className="cursor-pointer" /></MenubarItem>
+                    <MenubarItem variant='destructive' onClick={()=>signOut({callbackUrl: '/auth/login'})}>Logout<LogOut size={18}  className="cursor-pointer" /></MenubarItem>
                 </MenubarContent>
             </MenubarMenu>
         </Menubar>

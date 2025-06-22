@@ -7,7 +7,7 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion"
 import { SidebarContext } from "@/store/sidebar-store"
-import { Icon360View, IconBrandUbuntu, IconChevronDown, IconChevronsDown, IconCross, IconDeviceIpadQuestion, IconFileSpreadsheet, IconHeartRateMonitor, IconVs, IconX } from "@tabler/icons-react"
+import { Icon360View, IconBrandUbuntu, IconChevronDown, IconChevronsDown, IconCross, IconDeviceIpadQuestion, IconFileSpreadsheet, IconHeartRateMonitor, IconVs, IconX, IconZoomScan } from "@tabler/icons-react"
 import { AlertCircle, Cpu } from "lucide-react"
 import Link from "next/link"
 import { useContext, useState } from "react"
@@ -16,12 +16,16 @@ import { Button } from "../ui/button";
 
 const MENU = [
     {
-        title: "Problem",
+        title: "DSA",
         icon: <IconDeviceIpadQuestion size={18} />,
         submenu: [
             {
-                title: "Browse",
+                title: "Problems",
                 url: "/practice"
+            },
+            {
+                title: "Resource",
+                url: "/resource"
             }
         ]
     },
@@ -68,7 +72,25 @@ const MENU = [
                 url: "/sheets"
             },
         ]
-    }
+    },
+    {
+        title: "Tools",
+        icon: <IconZoomScan size={18} />,
+        submenu: [
+            {
+                title: "CF Visualizer",
+                url: "/tools/cf-visualizer"
+            },
+            {
+                title: "CF Comparision",
+                url: "/tools/cf-comparision"
+            },
+            {
+                title: "LC Visualizer",
+                url: "/tools/lc-visualizer"
+            },
+        ]
+    },
 ]
 
 const CustomSidebar = () => {
