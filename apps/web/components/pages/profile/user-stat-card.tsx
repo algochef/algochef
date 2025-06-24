@@ -1,42 +1,65 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { User } from '@repo/types/user'
 import { IconBrandGithub, IconBrandInstagram, IconBrandLinkedin, IconBrandX, IconWorld } from '@tabler/icons-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const UserStatCard = () => {
+const UserStatCard = ({ userInfo }: { userInfo: User }) => {
     return (
         <div className='shadow h-fit rounded-b-md'>
             <div className='relative  h-fit'>
                 <div className='w-[330px] h-[150px] bg-gradient-to-r from-blue-500 to-violet-500 rounded-t-lg'>
                     <div className='absolute -bottom-8 left-0 flex items-center justify-center w-full'>
-                        <Image src={'https://assets.leetcode.com/users/avatars/avatar_1644600734.png'} alt='DP' width={100} height={100} className='rounded-full border-2' />
+                        <Avatar className='rounded-full border-4 w-24 h-24'>
+                            <AvatarImage src={userInfo.avatar || `https://ui-avatars.com/api/?name=${userInfo.name}&background=0D8ABC&color=fff`} alt={`${userInfo.name}'s DP`} className=" rounded-full" />
+                            <AvatarFallback>{userInfo.name}</AvatarFallback>
+                        </Avatar>
+
                     </div>
                 </div>
 
             </div>
             <div className='flex flex-col items-center mt-12'>
                 <div className='flex flex-col items-center'>
-                    <h1 className='text-xl tracking-tight font-bold'>Joy Biswas</h1>
-                    <h6 className='tracking-tighter font-medium text-gray-600'>@terminalwarlord</h6>
-                    <p className='tracking-tight text-gray-500 text-sm'>Premier University, Chittagong</p>
+                    <h1 className='text-xl tracking-tight font-bold'>{userInfo.name}</h1>
+                    <h6 className='tracking-tighter font-medium text-gray-600'>@{userInfo.username}</h6>
+                    {userInfo.institution && <>
+                        <p className='tracking-tight text-gray-500 text-sm'>{userInfo.institution}</p>
+                    </>}
                 </div>
-                <div className='flex space-x-2 mt-4'>
-                    <Link href={'https://github.com/TerminalWarlord'} className='cursor-pointer'>
-                        <IconBrandGithub size={22} />
-                    </Link>
-                    <Link href={'https://www.linkedin.com/in/joybiswas389'} className='cursor-pointer'>
-                        <IconBrandLinkedin size={22} />
-                    </Link>
-                    <Link href={'https://x.com/JayBeeOP'} className='cursor-pointer'>
-                        <IconBrandX size={22} />
-                    </Link>
-                    <Link href={'https://instagram.com/joybiswas389'} className='cursor-pointer'>
-                        <IconBrandInstagram size={22} />
-                    </Link>
-                    <Link href={'https://joybiswas.com'} className='cursor-pointer'>
-                        <IconWorld size={22} />
-                    </Link>
-                </div>
+                {
+                    userInfo.social && <>
+                        <div className='flex space-x-2 mt-4'>
+                            {userInfo.social.githubUrl && <>
+                                <Link href={userInfo.social.githubUrl} className='cursor-pointer'>
+                                    <IconBrandGithub size={22} />
+                                </Link>
+
+                            </>}
+                            {userInfo.social.linkedinUrl && <>
+                                <Link href={'https://www.linkedin.com/in/joybiswas389'} className='cursor-pointer'>
+                                    <IconBrandLinkedin size={22} />
+                                </Link>
+
+                            </>}
+                            {userInfo.social.twitterUrl && <>
+                                <Link href={userInfo.social.twitterUrl} className='cursor-pointer'>
+                                    <IconBrandX size={22} />
+                                </Link>
+                            </>}
+                            {userInfo.social.instagramUrl && <>
+                                <Link href={userInfo.social.instagramUrl} className='cursor-pointer'>
+                                    <IconBrandInstagram size={22} />
+                                </Link>
+                            </>}
+                            {userInfo.social.portfolioUrl && <>
+                                <Link href={'https://joybiswas.com'} className='cursor-pointer'>
+                                    <IconWorld size={22} />
+                                </Link>
+                            </>}
+                        </div>
+                    </>
+                }
                 <div className='flex flex-col my-4 w-full items-center'>
                     <div className='w-10/12 h-[1px] bg-gray-300 my-2'></div>
                     <div className='grid grid-cols-3 px-4 w-full'>

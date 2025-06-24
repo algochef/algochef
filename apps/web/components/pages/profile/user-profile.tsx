@@ -3,11 +3,18 @@ import StatCard from "./stat-card"
 import UserStatCard from "./user-stat-card"
 import OJHandlesStats from "./oj-handles-stats"
 import UserProgressBar from "./user-progress"
+import { fetchUserInfo } from "@/lib/profile/fetch-user-info"
+import { redirect } from "next/navigation"
 
 
-const UserProfile = async ({username}: {username: string}) => {
+const UserProfile = async ({ username }: { username: string }) => {
+  console.log("UserProfile",username);
+  const userInfo = await fetchUserInfo(username);
+  if(!userInfo){
+    redirect('/');
+  }
   return <div className="flex w-full space-x-3">
-    <UserStatCard />
+    <UserStatCard userInfo={userInfo}/>
     <div className="flex flex-col w-full space-y-4">
       <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row w-full space-x-4">
         <UserProgressBar />

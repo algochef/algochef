@@ -2,7 +2,9 @@
   "name": "@repo/types",
   "exports": {
     "./contest": "./contest-types.ts",
-    "./problem": "./problem-types.ts"
+    "./problem": "./problem-types.ts",
+    "./user": "./user-types.ts",
+    "./stat": "./stat-types.ts"
   },
   "module": "index.ts",
   "type": "module",

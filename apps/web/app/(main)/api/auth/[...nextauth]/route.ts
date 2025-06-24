@@ -9,11 +9,11 @@ import bcrypt from "bcryptjs"
 // Extend the built-in session types
 declare module "next-auth" {
   interface Session extends DefaultSession {
-    user: {
+    user: DefaultSession["user"] &{
       id: number;
       username: string;
       avatar?: string;
-    } & DefaultSession["user"]
+    } 
   }
 
   // Define the User type without extending NextAuthUser
@@ -168,30 +168,21 @@ export const authOptions: AuthOptions = {
         return false;
       }
     },
-    // async jwt({ token, user }) {
-    //   if (user) {
-    //     token.id = user.id as number;
-    //     token.email = user.email;
-    //     token.name = user.name;
-    //     // token.avatar = user.avatar || undefined; 
-    //     token.username = user.username;
-    //   }
-    //   return token;
-    // },
-    // async session({ session, token }) {
-    //   if (session.user) {
-    //     session.user.id = token.id;
-    //     session.user.email = token.email;
-    //     session.user.name = token.name;
-    //     session.user.username = token.username;
-    //   }
-    //   return session;
-    // }
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id as number;
+        token.email = user.email;
+        token.name = user.name;
+        token.image = user.avatar || user.image;
+        token.username = user.username;
+      }
+      return token;
+    },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id;
         session.user.username = token.username;
-        session.user.avatar = token.image;
+        // @ts-ignore
       }
       return session;
     }

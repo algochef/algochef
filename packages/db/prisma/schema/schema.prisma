@@ -9,7 +9,7 @@ datasource db {
 }
 
 enum Role {
-  SUPERADMIN
+  MODERATOR
   ADMIN
   USER
 }
@@ -39,7 +39,7 @@ enum SheetTheme {
 
 model User {
   id          Int         @id @default(autoincrement())
-  email       String      
+  email       String
   password    String
   username    String      @unique
   name        String
@@ -139,12 +139,13 @@ model CompanyTagOnProblem {
 }
 
 model OjProfile {
-  id       Int      @id @default(autoincrement())
-  handle   String
-  userId   Int
-  platform Platform
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  verified Boolean  @default(false)
+  id            Int             @id @default(autoincrement())
+  handle        String
+  userId        Int
+  platform      Platform
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verified      Boolean         @default(false)
+  ratingHistory RatingHistory[]
 
   @@unique([userId, platform])
   @@unique([handle, platform])
@@ -188,3 +189,4 @@ model SectionOnProblem {
 
   @@id([problemId, sectionId])
 }
+
