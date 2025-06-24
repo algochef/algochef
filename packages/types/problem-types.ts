@@ -12,7 +12,7 @@ export enum SheetTheme {
   EMERALD = "EMERALD",
   INDIGO = "INDIGO",
   BLUE = "BLUE",
-  YELLOW = "YELLOW"
+  YELLOW = "YELLOW",
 }
 
 export interface Problem {
@@ -27,21 +27,19 @@ export interface Problem {
   difficultyNumeric?: number;
   tags?: Tag[];
   companyTags?: CompanyTag[];
-};
-
+}
 
 export interface Tag {
   id?: number;
   name: string;
-  slug: string
+  slug: string;
 }
 
 export interface CompanyTag {
   id?: number;
   name: string;
-  slug: string
+  slug: string;
 }
-
 
 export interface Sheet {
   id?: number;
@@ -51,11 +49,10 @@ export interface Sheet {
   section: Section[];
   theme: SheetTheme;
   createdBy?: {
-    name: string,
-    username: string,
+    name: string;
+    username: string;
   };
 }
-
 
 export interface Section {
   id?: number;
@@ -64,7 +61,6 @@ export interface Section {
   problems: Problem[];
   sheetId?: number;
 }
-
 
 export enum ProblemListType {
   SHEET = "SHEET",

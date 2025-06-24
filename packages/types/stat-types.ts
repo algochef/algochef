@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const CodeforcesAccountSchema = z.object({
   firstName: z.string(),
@@ -8,11 +8,10 @@ export const CodeforcesAccountSchema = z.object({
   rank: z.string(),
   maxRank: z.string(),
   totalSolve: z.number().optional(),
-  totalContests: z.number().optional()
+  totalContests: z.number().optional(),
 });
 
 export type CodeforcesAccount = z.infer<typeof CodeforcesAccountSchema>;
-
 
 export const LeetcodeAccountSchema = z.object({
   firstName: z.string(),
@@ -31,8 +30,6 @@ export const LeetcodeAccountSchema = z.object({
 
 export type LeetcodeAccount = z.infer<typeof LeetcodeAccountSchema>;
 
-
-
 export const AtcoderAccountSchema = z.object({
   rating: z.number().optional(),
   rank: z.number().optional(),
@@ -40,11 +37,10 @@ export const AtcoderAccountSchema = z.object({
   totalContests: z.number().optional(),
   badge: z.string().optional(),
   affiliation: z.string().optional(),
-  totalSolved: z.number().optional()
+  totalSolved: z.number().optional(),
 });
 
 export type AtcoderAccount = z.infer<typeof AtcoderAccountSchema>;
-
 
 export const CodechefAccountSchema = z.object({
   firstName: z.string(),
@@ -53,7 +49,7 @@ export const CodechefAccountSchema = z.object({
   rank: z.string().optional(),
   maxRating: z.number().optional(),
   totalContests: z.number().optional(),
-  totalSolved: z.number().optional()
+  totalSolved: z.number().optional(),
 });
 
 export type CodechefAccount = z.infer<typeof CodechefAccountSchema>;

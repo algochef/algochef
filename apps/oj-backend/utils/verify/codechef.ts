@@ -1,21 +1,25 @@
 import * as cheerio from "cheerio";
 
-export const verifyCodechef = async (handle: string, verificationCode: string) => {
-    try {
-        const res = await fetch('https://www.codechef.com/users/' + handle);
-        if (!res.ok) {
-            throw Error("Couldn't make CC API request!");
-        }
-        const $ = cheerio.load(await res.text());
-        const name = $('.user-details-container > header >h1.h2-style').text().trim();
-        console.log(name)
-        if ((name).toLowerCase()===verificationCode.toLowerCase()) {
-            return true;
-        }
-        return false;
+export const verifyCodechef = async (
+  handle: string,
+  verificationCode: string,
+) => {
+  try {
+    const res = await fetch("https://www.codechef.com/users/" + handle);
+    if (!res.ok) {
+      throw Error("Couldn't make CC API request!");
     }
-    catch (err) {
-        console.error(err);
-        throw Error("Something went wrong while verifying!");
+    const $ = cheerio.load(await res.text());
+    const name = $(".user-details-container > header >h1.h2-style")
+      .text()
+      .trim();
+    console.log(name);
+    if (name.toLowerCase() === verificationCode.toLowerCase()) {
+      return true;
     }
-}
+    return false;
+  } catch (err) {
+    console.error(err);
+    throw Error("Something went wrong while verifying!");
+  }
+};

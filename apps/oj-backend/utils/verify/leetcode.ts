@@ -1,7 +1,9 @@
-
-export const verifyLeetcode = async (handle: string, verificationCode: string) => {
-    try {
-        const query = `
+export const verifyLeetcode = async (
+  handle: string,
+  verificationCode: string,
+) => {
+  try {
+    const query = `
             query userPublicProfile($username: String!) {
             matchedUser(username: $username) {
                 contestBadge {
@@ -38,36 +40,34 @@ export const verifyLeetcode = async (handle: string, verificationCode: string) =
             }
             }
         `;
-        const res = await fetch('https://leetcode.com/graphql/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Origin': 'https://leetcode.com',
-                'Referer': `https://leetcode.com/u/${handle}/`,
-                'User-Agent': 'Mozilla/5.0'
-            },
-            body: JSON.stringify({
-                query,
-                variables: { username: handle },
-                operationName: 'userPublicProfile'
-            })
-        });
-        if (!res.ok) {
-            throw Error("Couldn't make LC API request!");
-        }
-        const resData = await res.json();
-        const sumamry = resData?.data?.matchedUser?.profile?.aboutMe;
-        if (sumamry && (sumamry).toLowerCase() === verificationCode.toLowerCase()) {
-            return true;
-        }
-        return false;
+    const res = await fetch("https://leetcode.com/graphql/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: "https://leetcode.com",
+        Referer: `https://leetcode.com/u/${handle}/`,
+        "User-Agent": "Mozilla/5.0",
+      },
+      body: JSON.stringify({
+        query,
+        variables: { username: handle },
+        operationName: "userPublicProfile",
+      }),
+    });
+    if (!res.ok) {
+      throw Error("Couldn't make LC API request!");
     }
-    catch (err) {
-        console.error(err);
-        throw Error("Something went wrong while verifying!");
+    const resData = await res.json();
+    const sumamry = resData?.data?.matchedUser?.profile?.aboutMe;
+    if (sumamry && sumamry.toLowerCase() === verificationCode.toLowerCase()) {
+      return true;
     }
-}
-
+    return false;
+  } catch (err) {
+    console.error(err);
+    throw Error("Something went wrong while verifying!");
+  }
+};
 
 // (async () => {
 //     console.log(await verifyLeetcode('terminalwarlord', '#1'));

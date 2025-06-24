@@ -1,7 +1,10 @@
 import { prismaClient } from "@repo/db/client";
 import type { Submission } from "@repo/types/user";
 
-export const getRecentSubmissions = async (username: string, userId: number) => {
+export const getRecentSubmissions = async (
+  username: string,
+  userId: number,
+) => {
   const query = `
     query recentAcSubmissionList($username: String!) {
       recentAcSubmissionList(username: $username) {
@@ -23,7 +26,7 @@ export const getRecentSubmissions = async (username: string, userId: number) => 
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Referer": "https://leetcode.com/",
+        Referer: "https://leetcode.com/",
         "User-Agent": "Mozilla/5.0",
       },
       body,
@@ -42,13 +45,13 @@ export const getRecentSubmissions = async (username: string, userId: number) => 
     }
 
     const submissions: Submission[] = json.data.recentAcSubmissionList;
-    if(!submissions || !submissions.length){
-        return;
+    if (!submissions || !submissions.length) {
+      return;
     }
     // console.log(submissions);
-    for(const submission of submissions){
-        // console.log(submission)
-        // await prismaClient.
+    for (const submission of submissions) {
+      // console.log(submission)
+      // await prismaClient.
     }
   } catch (err) {
     console.error("Fetch error:", err);

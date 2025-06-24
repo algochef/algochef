@@ -1,10 +1,11 @@
-import ProblemsPage from '@/components/pages/admin-panel/problems-page'
-import React from 'react'
-
+import ProblemsPage from "@/components/pages/admin-panel/problems-page";
+import React from "react";
 
 const Problems = () => {
-    return <>
-        <ProblemsPage />
+  return (
+    <>
+      <ProblemsPage />
     </>
-}
-export default Problems
+  );
+};
+export default Problems;

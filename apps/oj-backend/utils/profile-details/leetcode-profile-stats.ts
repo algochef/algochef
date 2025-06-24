@@ -1,6 +1,5 @@
 import type { LeetcodeAccount } from "@repo/types/stat";
 
-
 interface LeetCodeStats {
   totalSolved: number;
   easySolved: number;
@@ -10,9 +9,9 @@ interface LeetCodeStats {
 
 const getLeetcodeBasicInfo = async (handle: string) => {
   try {
-    const res = await fetch('https://leetcode.com/graphql', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("https://leetcode.com/graphql", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         query: `
         query getUserProfile($username: String!) {
@@ -26,8 +25,8 @@ const getLeetcodeBasicInfo = async (handle: string) => {
           }
         }
       `,
-        variables: { 'username': handle }
-      })
+        variables: { username: handle },
+      }),
     });
     if (!res.ok) {
       console.error("Bad status code while getting basic LC info");
@@ -41,17 +40,17 @@ const getLeetcodeBasicInfo = async (handle: string) => {
       firstName: data.profile.realName,
       aboutMe: data.profile.aboutMe,
       ranking: data.profile.ranking,
-    }
+    };
     return userData;
-  }
-  catch (err) {
+  } catch (err) {
     console.error("Failed to get basic leetcode user info");
   }
+};
 
-}
-
-const getLeetCodeSolveCount = async (username: string): Promise<LeetCodeStats | null> => {
-  const url = 'https://leetcode.com/graphql';
+const getLeetCodeSolveCount = async (
+  username: string,
+): Promise<LeetCodeStats | null> => {
+  const url = "https://leetcode.com/graphql";
 
   const query = `
     query userProblemsSolved($username: String!) {
@@ -71,9 +70,9 @@ const getLeetCodeSolveCount = async (username: string): Promise<LeetCodeStats | 
   `;
 
   const response = await fetch(url, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       query,
@@ -82,13 +81,14 @@ const getLeetCodeSolveCount = async (username: string): Promise<LeetCodeStats | 
   });
 
   if (!response.ok) {
-    console.error('Failed to fetch data from LeetCode');
+    console.error("Failed to fetch data from LeetCode");
     return null;
   }
 
   const data = await response.json();
 
-  const submissionData = data.data?.matchedUser?.submitStatsGlobal?.acSubmissionNum;
+  const submissionData =
+    data.data?.matchedUser?.submitStatsGlobal?.acSubmissionNum;
   const allQuestions = data.data?.allQuestionsCount;
 
   if (!submissionData || !allQuestions) {
@@ -96,21 +96,22 @@ const getLeetCodeSolveCount = async (username: string): Promise<LeetCodeStats | 
   }
 
   const getCount = (difficulty: string) =>
-    submissionData.find((item: any) => item.difficulty === difficulty)?.count || 0;
+    submissionData.find((item: any) => item.difficulty === difficulty)?.count ||
+    0;
 
   return {
-    totalSolved: getCount('All'),
-    easySolved: getCount('Easy'),
-    mediumSolved: getCount('Medium'),
-    hardSolved: getCount('Hard'),
+    totalSolved: getCount("All"),
+    easySolved: getCount("Easy"),
+    mediumSolved: getCount("Medium"),
+    hardSolved: getCount("Hard"),
   };
-}
+};
 
 const getLeetcodeRating = async (handle: string) => {
   try {
-    const res = await fetch('https://leetcode.com/graphql', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("https://leetcode.com/graphql", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         query: `
         query userContestRankingInfo($username: String!) {
@@ -139,8 +140,8 @@ const getLeetcodeRating = async (handle: string) => {
           }
         }
       `,
-        variables: { 'username': handle }
-      })
+        variables: { username: handle },
+      }),
     });
     if (!res.ok) {
       console.error("Bad status code while getting LC contest data");
@@ -151,27 +152,36 @@ const getLeetcodeRating = async (handle: string) => {
     if (!data) return null;
 
     const userData = {
-      totalContests: data.userContestRanking ? data.userContestRanking.attendedContestsCount : 0,
-      rating: data.userContestRanking ? Math.round(data.userContestRanking.rating) : 0,
-      rank: (data.userContestRanking && data.userContestRanking.badge) ? data.userContestRanking.badge.name : "Unrated",
+      totalContests: data.userContestRanking
+        ? data.userContestRanking.attendedContestsCount
+        : 0,
+      rating: data.userContestRanking
+        ? Math.round(data.userContestRanking.rating)
+        : 0,
+      rank:
+        data.userContestRanking && data.userContestRanking.badge
+          ? data.userContestRanking.badge.name
+          : "Unrated",
       maxRating: 0,
-    } satisfies Pick<LeetcodeAccount, 'totalContests' | 'rating' | 'rank' | 'maxRating'>
+    } satisfies Pick<
+      LeetcodeAccount,
+      "totalContests" | "rating" | "rank" | "maxRating"
+    >;
 
-    let curBestRating = data.userContestRanking?data.userContestRanking.rating:0;
+    let curBestRating = data.userContestRanking
+      ? data.userContestRanking.rating
+      : 0;
     for (const contest of data.userContestRankingHistory) {
       if (contest.attended && Math.round(contest.rating) > curBestRating) {
-        curBestRating = Math.round(contest.rating)
+        curBestRating = Math.round(contest.rating);
       }
     }
     userData.maxRating = curBestRating;
     return userData;
-  }
-  catch (err) {
+  } catch (err) {
     console.error("Failed to get LC contest data", err);
   }
-}
-
-
+};
 
 export const getLeetcodeProfileStats = async (handle: string) => {
   let data = await getLeetcodeBasicInfo(handle);
@@ -183,15 +193,14 @@ export const getLeetcodeProfileStats = async (handle: string) => {
   data = {
     ...data,
     ...solvedData,
-    ...contestData
-  }
+    ...contestData,
+  };
   return data as LeetcodeAccount;
-}
-
+};
 
 (async () => {
   // console.log(await getLeetCodeSolveCount('terminalwarlord'));
   // console.log(await getLeetcodeProfileStats('terminalwarlord'));
-  console.log(await getLeetcodeProfileStats('fjzzq2002'));
-  console.log(await getLeetcodeProfileStats('sveta2125'));
-})()
+  console.log(await getLeetcodeProfileStats("fjzzq2002"));
+  console.log(await getLeetcodeProfileStats("sveta2125"));
+})();

@@ -1,36 +1,40 @@
-import NextAuth, { AuthOptions, SessionStrategy, DefaultSession } from "next-auth"
+import NextAuth, {
+  AuthOptions,
+  SessionStrategy,
+  DefaultSession,
+} from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { prismaClient as prisma } from "@repo/db/client";
-import { customAlphabet } from "nanoid"
-import bcrypt from "bcryptjs"
+import { customAlphabet } from "nanoid";
+import bcrypt from "bcryptjs";
 
 // Extend the built-in session types
 declare module "next-auth" {
   interface Session extends DefaultSession {
-    user: DefaultSession["user"] &{
+    user: DefaultSession["user"] & {
       id: number;
       username: string;
       avatar?: string;
-    } 
+    };
   }
 
   // Define the User type without extending NextAuthUser
   interface User {
-    id: number
-    username: string
-    name?: string
-    email?: string
-    avatar?: string
+    id: number;
+    username: string;
+    name?: string;
+    email?: string;
+    avatar?: string;
   }
 }
 
 // Extend JWT type
 declare module "next-auth/jwt" {
   interface JWT {
-    id: number
-    username: string
+    id: number;
+    username: string;
   }
 }
 // TODO: Handle github username issue
@@ -39,13 +43,20 @@ export const authOptions: AuthOptions = {
     CredentialsProvider({
       name: "Email",
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "johndoe@gmail.com" },
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "johndoe@gmail.com",
+        },
         username: { label: "Username", type: "text", placeholder: "johndoe" },
         name: { label: "Name", type: "text", placeholder: "John Doe" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
-        if ((!credentials?.email || !credentials.username) && !credentials?.password) {
+      async authorize(credentials) {
+        if (
+          (!credentials?.email || !credentials.username) &&
+          !credentials?.password
+        ) {
           throw new Error("Email/Username and Password are required!");
         }
 
@@ -53,13 +64,17 @@ export const authOptions: AuthOptions = {
           where: {
             OR: [
               { email: credentials?.email },
-              { username: credentials?.username }
-            ]
-          }
+              { username: credentials?.username },
+            ],
+          },
         });
 
         if (!existingUser) {
-          if (!credentials.name || !credentials.email || !credentials.password) {
+          if (
+            !credentials.name ||
+            !credentials.email ||
+            !credentials.password
+          ) {
             throw new Error("Important fields are missing!");
           }
           const nanoid = customAlphabet("1234567890", 10);
@@ -73,23 +88,25 @@ export const authOptions: AuthOptions = {
                 provider: "credentials",
                 providerId: providerId,
                 name: credentials.name,
-                password: hashedPassword
-              }
-            })
+                password: hashedPassword,
+              },
+            });
             return {
               id: user.id,
               name: user.name,
               email: user.email,
               username: user.username,
-              avatar: user.avatar || undefined
+              avatar: user.avatar || undefined,
             };
-          }
-          catch (err) {
+          } catch (err) {
+            console.error(err);
             throw new Error("Failed to create user");
           }
-        }
-        else {
-          const hashedPassword = await bcrypt.compare(credentials.password, existingUser.password);
+        } else {
+          const hashedPassword = await bcrypt.compare(
+            credentials.password,
+            existingUser.password,
+          );
           if (!hashedPassword) {
             throw new Error("Invalid password");
           }
@@ -98,44 +115,44 @@ export const authOptions: AuthOptions = {
             name: existingUser.name,
             email: existingUser.email,
             username: existingUser.username,
-            avatar: existingUser.avatar || undefined
+            avatar: existingUser.avatar || undefined,
           };
         }
-      }
+      },
     }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID || "",
-      clientSecret: process.env.GITHUB_SECRET || ""
+      clientSecret: process.env.GITHUB_SECRET || "",
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || ""
-    })
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: '/auth/login'
+    signIn: "/auth/login",
   },
   session: {
     strategy: "jwt" as SessionStrategy,
-    maxAge: 30 * 24 * 60 * 60 // 30 days
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
     async redirect({ url, baseUrl }) {
-      if (url.startsWith('/')) return `${baseUrl}${url}`;
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
       if (url.startsWith(baseUrl)) return url;
       return baseUrl;
     },
 
     async signIn({ user, account }) {
-      if (account?.provider === 'credentials') {
+      if (account?.provider === "credentials") {
         return true;
       }
 
       try {
         const existingUser = await prisma.user.findUnique({
           where: {
-            providerId: account?.provider + "_" + account?.providerAccountId
+            providerId: account?.provider + "_" + account?.providerAccountId,
           },
         });
 
@@ -152,8 +169,8 @@ export const authOptions: AuthOptions = {
               avatar: user.image || undefined,
               provider: account?.provider,
               providerId: account?.provider + "_" + account?.providerAccountId,
-              password: "SSO"
-            }
+              password: "SSO",
+            },
           });
           user.id = newUser.id;
           user.username = newUser.username;
@@ -162,8 +179,7 @@ export const authOptions: AuthOptions = {
           user.username = existingUser.username;
         }
         return true;
-      }
-      catch (err) {
+      } catch (err) {
         console.error("SignIn Error:", err);
         return false;
       }
@@ -182,14 +198,13 @@ export const authOptions: AuthOptions = {
       if (session.user) {
         session.user.id = token.id;
         session.user.username = token.username;
-        // @ts-ignore
       }
       return session;
-    }
+    },
   },
-  debug: true
-}
+  debug: true,
+};
 
-const handler = NextAuth(authOptions)
+const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };

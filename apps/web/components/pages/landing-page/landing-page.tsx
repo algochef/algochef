@@ -1,13 +1,13 @@
-import Features from "./features"
-import HeroSection from "./hero"
+import Features from "./features";
+import HeroSection from "./hero";
 
 const LandingPage = () => {
   return (
     <div>
-        <HeroSection/>
-        <Features/>
+      <HeroSection />
+      <Features />
     </div>
-  )
-}
+  );
+};
 
-export default LandingPage
+export default LandingPage;

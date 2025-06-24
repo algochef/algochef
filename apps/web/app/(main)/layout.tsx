@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "../globals.css";
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { Providers } from "@/lib/providers";
@@ -10,22 +10,21 @@ import CustomSidebar from "@/components/layout/custom-sidebar";
 import { SidebarProvider } from "@/components/layout/toggle-sidebar";
 import Container from "@/components/layout/container";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ['latin'], // or ['latin', 'latin-ext']
-  display: 'swap',
-})
-
+  subsets: ["latin"], // or ['latin', 'latin-ext']
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -39,9 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable}  antialiased`}
-      >
+      <body className={`${inter.variable}  antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -55,14 +52,13 @@ export default function RootLayout({
               <div className="flex mx-2 md:space-x-2 py-2 pt-18 md:pt-2">
                 <CustomSidebar />
                 <Container>
-                  <div className='flex px-3 space-x-3 my-2 min-h-screen'>
+                  <div className="flex px-3 space-x-3 my-2 min-h-screen">
                     {children}
                   </div>
                 </Container>
               </div>
               <Footer />
             </SidebarProvider>
-
           </Providers>
         </ThemeProvider>
       </body>

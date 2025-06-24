@@ -1,19 +1,20 @@
 "use client";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { signIn } from "next-auth/react"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export function LoginForm({
   className,
@@ -21,7 +22,7 @@ export function LoginForm({
   ...props
 }: { isLogin?: boolean } & React.HTMLAttributes<HTMLDivElement>) {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -34,12 +35,30 @@ export function LoginForm({
         <CardContent>
           <div>
             <div className="flex flex-col gap-4">
-              <Button variant="outline" className="w-full cursor-pointer" onClick={() => signIn('github', { callbackUrl })}>
-                <Image src={'/icons/mono/github.svg'} alt="github icon" width={20} height={20} />
+              <Button
+                variant="outline"
+                className="w-full cursor-pointer"
+                onClick={() => signIn("github", { callbackUrl })}
+              >
+                <Image
+                  src={"/icons/mono/github.svg"}
+                  alt="github icon"
+                  width={20}
+                  height={20}
+                />
                 Login with Github
               </Button>
-              <Button variant="outline" className="w-full cursor-pointer" onClick={() => signIn('google', { callbackUrl })}>
-                <Image src={'/icons/mono/google.svg'} alt="google icon" width={20} height={20} />
+              <Button
+                variant="outline"
+                className="w-full cursor-pointer"
+                onClick={() => signIn("google", { callbackUrl })}
+              >
+                <Image
+                  src={"/icons/mono/google.svg"}
+                  alt="google icon"
+                  width={20}
+                  height={20}
+                />
                 Login with Google
               </Button>
             </div>
@@ -51,7 +70,6 @@ export function LoginForm({
           </div>
           <form className="my-2">
             <div className="grid gap-6">
-
               <div className="grid gap-6">
                 <div className="grid gap-3">
                   <Label htmlFor="email">Email</Label>
@@ -62,49 +80,64 @@ export function LoginForm({
                     required
                   />
                 </div>
-                {!isLogin && <>
-
-                  <div className="grid gap-3">
-                    <Label htmlFor="username">Username</Label>
-                    <Input
-                      id="username"
-                      type="text"
-                      placeholder="terminalwarlord"
-                      required
-                    />
-                  </div>
-                </>}
+                {!isLogin && (
+                  <>
+                    <div className="grid gap-3">
+                      <Label htmlFor="username">Username</Label>
+                      <Input
+                        id="username"
+                        type="text"
+                        placeholder="terminalwarlord"
+                        required
+                      />
+                    </div>
+                  </>
+                )}
                 <div className="grid gap-3">
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
                   </div>
                   <Input id="password" type="password" required />
                 </div>
-                {!isLogin && <>
-                  <div className="grid gap-3">
-                    <div className="flex items-center">
-                      <Label htmlFor="confirm_password">Confirm Password</Label>
+                {!isLogin && (
+                  <>
+                    <div className="grid gap-3">
+                      <div className="flex items-center">
+                        <Label htmlFor="confirm_password">
+                          Confirm Password
+                        </Label>
+                      </div>
+                      <Input id="confirm_password" type="password" required />
                     </div>
-                    <Input id="confirm_password" type="password" required />
-                  </div>
-                </>}
+                  </>
+                )}
 
                 <Button type="submit" className="w-full">
                   Login
                 </Button>
               </div>
               <div className="text-center text-sm">
-                {isLogin ? <>
-                  Don&apos;t have an account?{" "}
-                  <a href="/auth/signup" className="underline underline-offset-4">
-                    Sign up
-                  </a>
-                </> : <>
-                  Already have an account?{" "}
-                  <a href="/auth/login" className="underline underline-offset-4">
-                    Sign in
-                  </a>
-                </>}
+                {isLogin ? (
+                  <>
+                    Don&apos;t have an account?{" "}
+                    <Link
+                      href="/auth/signup"
+                      className="underline underline-offset-4"
+                    >
+                      Sign up
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    Already have an account?{" "}
+                    <Link
+                      href="/auth/login"
+                      className="underline underline-offset-4"
+                    >
+                      Sign in
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </form>
@@ -115,5 +148,5 @@ export function LoginForm({
         and <a href="#">Privacy Policy</a>.
       </div>
     </div>
-  )
+  );
 }

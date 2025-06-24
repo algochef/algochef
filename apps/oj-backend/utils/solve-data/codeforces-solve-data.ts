@@ -1,8 +1,7 @@
-
 // // type CodeforcesSubmission = {
 // //   id: number;
 // //   contestId: number;
-// //   problemIndex: 
+// //   problemIndex:
 // // }
 // // https://codeforces.com/contest/1668/submission/155877343
 // export const getCodeforcesSubmissions = async () => {

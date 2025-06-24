@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   BookOpen,
   UserCheck,
@@ -6,8 +6,7 @@ import {
   Code,
   Award,
   Users,
-} from "lucide-react"
-
+} from "lucide-react";
 
 const features = [
   {
@@ -52,20 +51,31 @@ const features = [
       "Share your journey with customizable profiles. Connect with other competitive programmers and showcase your achievements.",
     gradient: "from-teal-500 to-blue-500",
   },
-]
+];
 
 const FeatureCards = () => {
   return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-10 gap-2 my-4'>
-      {features.map((feature, index) => (
-        <div className='hover:shadow-md rounded-sm transition-all transform ease-in-out duration-300 dark:bg-gradient-to-tl dark:from-blue-700/10 dark:to-gray-950/10'>
-          <div className={`bg-gradient-to-br ${feature.gradient} rounded-sm p-1 text-gray-50 w-fit m-4`}>{feature.icon}</div>
-          <h6 className='text-sm sm:text-base md:text-xl  tracking-tighter font-semibold mx-4'>{feature.title}</h6>
-          <p className='text-gray-500 mx-4 mb-4 text-xs md:text-sm lg:text-base'>{feature.description}</p>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-10 gap-2 my-4">
+      {features.map((feature) => (
+        <div
+          key={feature.title}
+          className="hover:shadow-md rounded-sm transition-all transform ease-in-out duration-300 dark:bg-gradient-to-tl dark:from-blue-700/10 dark:to-gray-950/10"
+        >
+          <div
+            className={`bg-gradient-to-br ${feature.gradient} rounded-sm p-1 text-gray-50 w-fit m-4`}
+          >
+            {feature.icon}
+          </div>
+          <h6 className="text-sm sm:text-base md:text-xl  tracking-tighter font-semibold mx-4">
+            {feature.title}
+          </h6>
+          <p className="text-gray-500 mx-4 mb-4 text-xs md:text-sm lg:text-base">
+            {feature.description}
+          </p>
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default FeatureCards
+export default FeatureCards;

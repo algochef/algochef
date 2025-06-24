@@ -6,22 +6,21 @@ import tagRoutes from "./routes/tags";
 import sheetRoutes from "./routes/sheet";
 import profileRoutes from "./routes/profile";
 
-config({path: './../../.env'})
+config({ path: "./../../.env" });
 
 const PORT = process.env.OJ_BACKEND_PORT || 3001;
 export const app = new Hono();
 
 app.use(cors());
-app.route('/api/v1/', problemRoutes);
-app.route('/api/v1/', tagRoutes);
-app.route('/api/v1/', sheetRoutes);
-app.route('/api/v1/', profileRoutes);
-
+app.route("/api/v1/", problemRoutes);
+app.route("/api/v1/", tagRoutes);
+app.route("/api/v1/", sheetRoutes);
+app.route("/api/v1/", profileRoutes);
 
 if (import.meta.main) {
-    Bun.serve({
-        port: PORT,
-        fetch: app.fetch
-    });
-    console.log("Started server at " + PORT)
+  Bun.serve({
+    port: PORT,
+    fetch: app.fetch,
+  });
+  console.log("Started server at " + PORT);
 }
