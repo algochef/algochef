@@ -7,7 +7,8 @@ node_modules
 
 
 # Prisma Specific files
-packages/db/generated
+# **/prisma/generated/
+
 
 # Local env files
 .env
