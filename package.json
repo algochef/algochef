@@ -8,22 +8,8 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "bun run check-types"
-    }
-  },
-  "lint-staged": {
-    "**/*.{ts,tsx,js,jsx}": [
-      "prettier --write",
-      "turbo run lint --filter"
-    ],
-    "**/*.{json,md}": [
-      "prettier --write"
-    ]
+    "check-types": "turbo run check-types",
+    "prepare": "husky"
   },
   "devDependencies": {
     "husky": "^9.1.7",
