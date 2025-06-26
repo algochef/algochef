@@ -3,6 +3,9 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "lint": "bunx eslint ."
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "@repo/types": "*"
@@ -11,6 +14,7 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@repo/db": "*"
+    "@repo/db": "*",
+    "@repo/eslint-config": "*"
   }
 }
