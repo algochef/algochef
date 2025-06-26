@@ -9,6 +9,7 @@
   "dependencies": {
     "@repo/db": "*",
     "@repo/types": "*",
+    "@repo/eslint-config": "*",
     "cheerio": "^1.0.0"
   },
   "devDependencies": {

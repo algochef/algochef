@@ -5,40 +5,19 @@ export const getTotalSolveHelper = async (
   userId: number,
 ) => {
   try {
-    let curPage = 1;
-    while (curPage < 7000) {
-      const res = await fetch(
-        `https://cses.fi/problemset/stats/friends/p/${curPage}`,
-        {
-          headers: {
-            Cookie: sessionId,
-          },
-        },
-      );
-      if (!res.ok) {
-        console.error("Bad status code");
-        return 0;
-      }
-      const $ = cheerio.load(await res.text());
-      const table = $("table.narrow>tbody").find("tr");
-      for (const item of table) {
-        const $item = $(item);
-        const curUserId = parseInt(
-          $item
-            .find("td")
-            .eq(1)
-            .find("a")
-            .attr("href")
-            ?.split("/user/")[1]
-            .split("/")[0] || "",
-        );
-        if (curUserId === userId) {
-          const solved = parseInt($item.find("td").eq(2).text().trim()) || 0;
-          return solved;
-        }
-      }
+    const res = await fetch(`https://cses.fi/problemset/user/${userId}`, {
+      headers: {
+        Cookie: sessionId,
+      },
+    });
+    if (!res.ok) {
+      console.error("Bad status code");
+      return 0;
     }
-    return 0;
+    const $ = cheerio.load(await res.text());
+    const solveData = $("div.content>p").text().trim();
+    const solved = parseInt(solveData.split(":")[1].split("/")[0]) || 0;
+    return solved;
   } catch (err) {
     return 0;
   }

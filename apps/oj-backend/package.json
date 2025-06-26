@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun --watch index.ts"
+    "dev": "bun --watch index.ts",
+    "lint": "bunx eslint ."
   },
   "devDependencies": {
     "@types/bun": "latest"
@@ -15,6 +16,7 @@
   "dependencies": {
     "@repo/db": "*",
     "@repo/types": "*",
+    "@repo/eslint-config": "*",
     "dotenv": "^16.5.0",
     "hono": "^4.7.11",
     "jose": "^6.0.11",

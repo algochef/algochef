@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio";
-import { type AtcoderAccount, AtcoderAccountSchema } from "@repo/types/stat";
+import { type OJAccount } from "@repo/types/stat";
 
 const parseRank = (value: string) => {
   try {
@@ -31,7 +31,7 @@ const getAtcoderTotalSolve = async (handle: string) => {
   }
 };
 
-export const getAtcoderStats = async (handle: string) => {
+export const getAtcoderProfileStats = async (handle: string) => {
   try {
     const res = await fetch("https://atcoder.jp/users/" + handle);
     if (!res.ok) {
@@ -62,13 +62,13 @@ export const getAtcoderStats = async (handle: string) => {
       parseInt(
         $(".dl-table").eq(1).find("tr").eq(3).find("td").text().trim(),
       ) || 0;
-    const data: AtcoderAccount = {
-      affiliation,
+    const data: OJAccount = {
       totalContests,
       rank,
       badge,
       rating,
       maxRating,
+      aboutMe: affiliation,
       totalSolved: await getAtcoderTotalSolve(handle),
     };
     return data;
@@ -78,6 +78,6 @@ export const getAtcoderStats = async (handle: string) => {
   }
 };
 
-(async () => {
-  console.log(await getAtcoderStats("terminalwarlord"));
-})();
+// (async () => {
+//   console.log(await getAtcoderProfileStats("terminalwarlord"));
+// })();

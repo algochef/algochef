@@ -1,55 +1,19 @@
 import { z } from "zod";
 
-export const CodeforcesAccountSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  rating: z.number(),
-  maxRating: z.number(),
-  rank: z.string(),
-  maxRank: z.string(),
-  totalSolve: z.number().optional(),
-  totalContests: z.number().optional(),
-});
-
-export type CodeforcesAccount = z.infer<typeof CodeforcesAccountSchema>;
-
-export const LeetcodeAccountSchema = z.object({
-  firstName: z.string(),
-  aboutMe: z.string(),
-  ranking: z.string(),
+export const OjAccountSchema = z.object({
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  aboutMe: z.string().optional(),
   rating: z.number().optional(),
+  rank: z.number().optional(),
+  badge: z.string().optional(),
   maxRating: z.number().optional(),
-  rank: z.string().optional(),
-  maxRank: z.string().optional(),
-  totalSolve: z.number().optional(),
   totalContests: z.number().optional(),
+  totalSolved: z.number().optional(),
+  maxRank: z.string().optional(),
   easySolved: z.number().optional(),
   mediumSolved: z.number().optional(),
   hardSolved: z.number().optional(),
 });
 
-export type LeetcodeAccount = z.infer<typeof LeetcodeAccountSchema>;
-
-export const AtcoderAccountSchema = z.object({
-  rating: z.number().optional(),
-  rank: z.number().optional(),
-  maxRating: z.number().optional(),
-  totalContests: z.number().optional(),
-  badge: z.string().optional(),
-  affiliation: z.string().optional(),
-  totalSolved: z.number().optional(),
-});
-
-export type AtcoderAccount = z.infer<typeof AtcoderAccountSchema>;
-
-export const CodechefAccountSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string().optional(),
-  rating: z.number().optional(),
-  rank: z.string().optional(),
-  maxRating: z.number().optional(),
-  totalContests: z.number().optional(),
-  totalSolved: z.number().optional(),
-});
-
-export type CodechefAccount = z.infer<typeof CodechefAccountSchema>;
+export type OJAccount = z.infer<typeof OjAccountSchema>;

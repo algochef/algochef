@@ -1,4 +1,4 @@
-import type { LeetcodeAccount } from "@repo/types/stat";
+import type { OJAccount } from "@repo/types/stat";
 
 interface LeetCodeStats {
   totalSolved: number;
@@ -36,10 +36,10 @@ const getLeetcodeBasicInfo = async (handle: string) => {
     const data = resData.data?.matchedUser;
     if (!data) return null;
 
-    const userData: Partial<LeetcodeAccount> = {
+    const userData: Partial<OJAccount> = {
       firstName: data.profile.realName,
       aboutMe: data.profile.aboutMe,
-      ranking: data.profile.ranking,
+      rank: data.profile.ranking,
     };
     return userData;
   } catch (err) {
@@ -158,14 +158,14 @@ const getLeetcodeRating = async (handle: string) => {
       rating: data.userContestRanking
         ? Math.round(data.userContestRanking.rating)
         : 0,
-      rank:
+      badge:
         data.userContestRanking && data.userContestRanking.badge
           ? data.userContestRanking.badge.name
           : "Unrated",
       maxRating: 0,
     } satisfies Pick<
-      LeetcodeAccount,
-      "totalContests" | "rating" | "rank" | "maxRating"
+      OJAccount,
+      "totalContests" | "rating" | "badge" | "maxRating"
     >;
 
     let curBestRating = data.userContestRanking
@@ -180,6 +180,7 @@ const getLeetcodeRating = async (handle: string) => {
     return userData;
   } catch (err) {
     console.error("Failed to get LC contest data", err);
+    return null;
   }
 };
 
@@ -188,19 +189,31 @@ export const getLeetcodeProfileStats = async (handle: string) => {
   if (!data) {
     return null;
   }
-  const solvedData = await getLeetCodeSolveCount(handle);
-  const contestData = await getLeetcodeRating(handle);
+  const solvedData = (await getLeetCodeSolveCount(handle)) || {
+    easySolved: 0,
+    hardSolved: 0,
+    mediumSolved: 0,
+    totalSolved: 0,
+  };
+
+  const contestData = (await getLeetcodeRating(handle)) || {
+    badge: "Unrated",
+    maxRating: 0,
+    rating: 0,
+    totalContests: 0,
+  };
+
   data = {
     ...data,
     ...solvedData,
     ...contestData,
   };
-  return data as LeetcodeAccount;
+  return data as OJAccount;
 };
 
-(async () => {
-  // console.log(await getLeetCodeSolveCount('terminalwarlord'));
-  // console.log(await getLeetcodeProfileStats('terminalwarlord'));
-  console.log(await getLeetcodeProfileStats("fjzzq2002"));
-  console.log(await getLeetcodeProfileStats("sveta2125"));
-})();
+// (async () => {
+//   // console.log(await getLeetCodeSolveCount('terminalwarlord'));
+//   // console.log(await getLeetcodeProfileStats('terminalwarlord'));
+//   console.log(await getLeetcodeProfileStats("fjzzq2002"));
+//   console.log(await getLeetcodeProfileStats("sveta2125"));
+// })();

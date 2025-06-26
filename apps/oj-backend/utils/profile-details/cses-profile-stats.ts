@@ -1,3 +1,4 @@
+import type { OJAccount } from "@repo/types/stat";
 import { CSESClient } from "./cses-helper/cses-client";
 
 let instance: CSESClient | null = null;
@@ -16,12 +17,17 @@ const getClient = async () => {
 
 export const getCsesStats = async (userId: number) => {
   const client = await getClient();
+  console.log(userId);
   await client.addFriend(userId);
 
   const totalSolved = await client.getSolveCount(userId);
   return {
     totalSolved,
-  };
+    rating: 0,
+    totalContests: 0,
+    rank: 0,
+    badge: undefined,
+  } as OJAccount;
 };
 
 // (async () => {

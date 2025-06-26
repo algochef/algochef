@@ -1,7 +1,4 @@
-import {
-  type CodeforcesAccount,
-  CodeforcesAccountSchema,
-} from "@repo/types/stat";
+import { type OJAccount } from "@repo/types/stat";
 
 // https://codeforces.com/contest/1668/submission/155877343
 const getCodeforcesBasicInfo = async (handle: string) => {
@@ -18,12 +15,11 @@ const getCodeforcesBasicInfo = async (handle: string) => {
     const resData = await res.json();
     const result = resData.result[0];
 
-    const schema = CodeforcesAccountSchema.safeParse(result);
-    if (!schema.success) {
-      console.error("Failed to validate data", schema.error);
-      return null;
-    }
-    return schema.data as CodeforcesAccount;
+    return {
+      ...result,
+      rank: 0,
+      badge: result.rank,
+    } as OJAccount;
   } catch (err) {
     console.log("Failed to fetch user data");
     return null;
@@ -74,16 +70,16 @@ const getUsersTotalSolve = async (handle: string) => {
   }
 };
 
-export const getCodeforceProfileStats = async (handle: string) => {
+export const getCodeforcesProfileStats = async (handle: string) => {
   const data = await getCodeforcesBasicInfo(handle);
   if (!data) {
     return null;
   }
-  data.totalSolve = await getUsersTotalSolve(handle);
+  data.totalSolved = await getUsersTotalSolve(handle);
   data.totalContests = await getTotalContests(handle);
-  return data as CodeforcesAccount;
+  return data as OJAccount;
 };
 
-(async () => {
-  console.log(await getCodeforceProfileStats("terminalwarlord"));
-})();
+// (async () => {
+//   console.log(await getCodeforcesProfileStats("terminalwarlord"));
+// })();

@@ -1,4 +1,4 @@
-import type { CodechefAccount } from "@repo/types/stat";
+import type { OJAccount } from "@repo/types/stat";
 import * as cheerio from "cheerio";
 
 const parseNumber = (value: string) => {
@@ -14,7 +14,7 @@ const parseNumber = (value: string) => {
     return 0;
   }
 };
-export const codechefUserDetails = async (handle: string) => {
+export const getCodeChefProfileStats = async (handle: string) => {
   try {
     const res = await fetch("https://www.codechef.com/users/" + handle);
     if (!res.ok) {
@@ -39,31 +39,36 @@ export const codechefUserDetails = async (handle: string) => {
     const maxRating =
       parseNumber($("div.rating-header").eq(0).find("small").text().trim()) ||
       0;
-    const rank = $("span.rating").text().trim();
+    const badge = $("span.rating").text().trim();
+    const rank =
+      parseInt(
+        $("div.rating-ranks").find("li").eq(0).find("a>strong").text().trim(),
+      ) || 0;
     const totalContests =
       parseInt($("div.contest-participated-count>b").text().trim()) || 0;
     const totalSolved =
       parseNumber(
         $("section.problems-solved").find("h3").eq(3).text().trim(),
       ) || 0;
-    // console.log(fullname, rating, maxRating, badge, rank, totalContests, totalSolved);
+    // console.log(fullname, rating, maxRating, badge, badge, totalContests, totalSolved);
     return {
       firstName,
       lastName,
       rating,
+      badge,
       rank,
       maxRating,
       totalContests,
       totalSolved,
-    } as CodechefAccount;
+    } as OJAccount;
   } catch (err) {
     console.error("Failed to parse CC data");
     return null;
   }
 };
 
-(async () => {
-  console.log(await codechefUserDetails("jaybeeop"));
-  console.log(await codechefUserDetails("jaybeedevkaran1231op"));
-  console.log(await codechefUserDetails("devkaran1231"));
-})();
+// (async () => {
+//   console.log(await getCodeChefProfileStats("jaybeeop"));
+//   console.log(await getCodeChefProfileStats("jaybeedevkaran1231op"));
+//   console.log(await getCodeChefProfileStats("devkaran1231"));
+// })();

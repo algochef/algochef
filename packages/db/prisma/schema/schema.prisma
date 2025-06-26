@@ -146,6 +146,18 @@ model OjProfile {
   user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   verified      Boolean         @default(false)
   ratingHistory RatingHistory[]
+  rating        Int             @default(0)
+  maxRating     Int             @default(0)
+  totalSolved   Int             @default(0)
+  totalContests Int             @default(0)
+  easySolved    Int             @default(0)
+  mediumSolved  Int             @default(0)
+  hardSolved    Int             @default(0)
+  rank          Int             @default(0)
+  maxRank       Int             @default(0)
+  badge         String?
+  createdAt     DateTime        @default(now())
+  lastUpdated   DateTime        @default(now())
 
   @@unique([userId, platform])
   @@unique([handle, platform])
@@ -189,4 +201,3 @@ model SectionOnProblem {
 
   @@id([problemId, sectionId])
 }
-

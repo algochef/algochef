@@ -2,8 +2,12 @@ import { prismaClient } from "@repo/db/client";
 import { Platform } from "@repo/types/contest";
 import type { Context } from "hono";
 import { z } from "zod";
-import { verifyCodeforces } from "../utils/verify/codeforces";
 import { verifyHandle } from "../utils/verify/verifyHandle";
+import { getLeetcodeProfileStats } from "../utils/profile-details/leetcode-profile-stats";
+import { getCodeforcesProfileStats } from "../utils/profile-details/codeforce-profile-stats";
+import { getCodeChefProfileStats } from "../utils/profile-details/codechef-profile-stats";
+import { getAtcoderProfileStats } from "../utils/profile-details/atcoder-profile-stats";
+import { getCsesStats } from "../utils/profile-details/cses-profile-stats";
 
 export const getProfile = async (c: Context) => {
   const username = c.req.param("username");
@@ -22,10 +26,10 @@ export const getProfile = async (c: Context) => {
         },
       },
       ojHandles: {
-        select: {
-          handle: true,
-          verified: true,
-          platform: true,
+        omit: {
+          createdAt: true,
+          userId: true,
+          id: true,
         },
       },
     },
@@ -44,12 +48,39 @@ export const getProfile = async (c: Context) => {
       401,
     );
   }
+  const userWithOjStats = {
+    ...user,
+    ojHandles: await Promise.all(
+      user.ojHandles.map(async (handle) => {
+        if (handle.totalSolved) {
+          return handle;
+        }
+        let details;
+        if (handle.platform === Platform.LEETCODE) {
+          details = await getLeetcodeProfileStats(handle.handle);
+        } else if (handle.platform === Platform.CODEFORCES) {
+          details = await getCodeforcesProfileStats(handle.handle);
+        } else if (handle.platform === Platform.CODECHEF) {
+          details = await getCodeChefProfileStats(handle.handle);
+        } else if (handle.platform === Platform.ATCODER) {
+          details = await getAtcoderProfileStats(handle.handle);
+        } else if (handle.platform === Platform.CSES) {
+          details = await getCsesStats(handle.handle as unknown as number);
+        } else return handle;
+        return {
+          ...handle,
+          ...details,
+        };
+      }),
+    ),
+  };
   return c.json({
-    result: user,
+    result: userWithOjStats,
   });
 };
 
 export const postAddAHandle = async (c: Context) => {
+  // TODO: handle invalid handle or already taken handle
   const user = c.get("user");
   if (!user || !user.id) {
     return c.json(
@@ -79,6 +110,27 @@ export const postAddAHandle = async (c: Context) => {
   const userId = parseInt(user.id);
   const handle = res.data.handle;
   const platform = res.data.platform;
+
+  let details;
+  if (platform === Platform.LEETCODE)
+    details = await getLeetcodeProfileStats(handle);
+  else if (platform === Platform.CODEFORCES)
+    details = await getCodeforcesProfileStats(handle);
+  else if (platform === Platform.CODECHEF)
+    details = await getCodeChefProfileStats(handle);
+  else if (platform === Platform.ATCODER)
+    details = await getAtcoderProfileStats(handle);
+  else if (platform === Platform.CSES)
+    details = await getCsesStats(parseInt(handle));
+  else {
+    return c.json(
+      {
+        message: "Invalid Platform",
+      },
+      401,
+    );
+  }
+  console.log(details);
   await prismaClient.ojProfile.upsert({
     where: {
       userId_platform: {
@@ -90,10 +142,36 @@ export const postAddAHandle = async (c: Context) => {
       userId,
       handle,
       platform,
+      badge: details ? details.badge : undefined,
+      easySolved:
+        platform === Platform.LEETCODE && details ? details?.easySolved : 0,
+      mediumSolved:
+        platform === Platform.LEETCODE && details ? details?.mediumSolved : 0,
+      hardSolved:
+        platform === Platform.LEETCODE && details ? details?.hardSolved : 0,
+      maxRating: details?.maxRating,
+      rank: details?.rank,
+      rating: details?.rating,
+      totalSolved: details?.totalSolved || 0,
+      totalContests: details?.totalContests,
     },
     update: {
       handle,
+      platform,
       verified: false,
+      badge: details ? details.badge : undefined,
+      easySolved:
+        platform === Platform.LEETCODE && details ? details?.easySolved : 0,
+      mediumSolved:
+        platform === Platform.LEETCODE && details ? details?.mediumSolved : 0,
+      hardSolved:
+        platform === Platform.LEETCODE && details ? details?.hardSolved : 0,
+      maxRating: details?.maxRating,
+      // maxRank: parseInt(details?.maxRank || "0"),
+      rank: details?.rank,
+      rating: details?.rating,
+      totalSolved: details?.totalSolved || 0,
+      totalContests: details?.totalContests,
     },
   });
 
@@ -118,7 +196,7 @@ export const getVerifyHandle = async (c: Context) => {
     handle: z.string().nonempty(),
   });
   const res = schema.safeParse(c.req.query());
-  console.log("geeting query  ", c.req.query());
+  console.log("getting query  ", c.req.query());
   if (!res.success) {
     return c.json(
       {
