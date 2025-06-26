@@ -14,7 +14,7 @@ export const fetchProblemData = async (problemUrl: string) => {
       },
     });
     if (!res.ok) {
-      throw Error("Bad status code! Failed to parse problem data");
+      throw new Error("Bad status code! Failed to parse problem data");
     }
     const resData = await res.json();
     return {

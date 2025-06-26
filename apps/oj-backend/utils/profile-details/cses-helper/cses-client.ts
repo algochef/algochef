@@ -13,7 +13,7 @@ export class CSESClient {
   static async create(): Promise<CSESClient> {
     const sessionId = await getCSESSession();
     if (!sessionId) {
-      throw Error("Failed to generate sessionId");
+      throw new Error("Failed to generate sessionId");
     }
     return new CSESClient(sessionId);
   }
@@ -22,7 +22,7 @@ export class CSESClient {
     if (Date.now() - this.createdAt > 6 * 60 * 60 * 1000) {
       const sessId = await getCSESSession();
       if (!sessId) {
-        throw Error("Failed to generate sessionId");
+        throw new Error("Failed to generate sessionId");
       }
       this.sessionId = sessId;
       this.createdAt = Date.now();

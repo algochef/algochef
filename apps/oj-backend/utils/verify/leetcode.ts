@@ -55,7 +55,7 @@ export const verifyLeetcode = async (
       }),
     });
     if (!res.ok) {
-      throw Error("Couldn't make LC API request!");
+      throw new Error("Couldn't make LC API request!");
     }
     const resData = await res.json();
     const sumamry = resData?.data?.matchedUser?.profile?.aboutMe;
@@ -65,7 +65,7 @@ export const verifyLeetcode = async (
     return false;
   } catch (err) {
     console.error(err);
-    throw Error("Something went wrong while verifying!");
+    throw new Error("Something went wrong while verifying!");
   }
 };
 

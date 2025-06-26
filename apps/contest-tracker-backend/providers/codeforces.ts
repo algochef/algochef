@@ -11,7 +11,7 @@ export const codeforcesTracker = async (): Promise<Contest[]> => {
 
     // bad status code, raise error
     if (!res.ok) {
-      throw Error("Failed to get Codeforces contests");
+      throw new Error("Failed to get Codeforces contests");
     }
 
     // get the result

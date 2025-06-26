@@ -7,7 +7,7 @@ export const verifyCodeforces = async (
       "https://codeforces.com/api/user.info?handles=" + handle,
     );
     if (!res.ok) {
-      throw Error("Couldn't make CF API request!");
+      throw new Error("Couldn't make CF API request!");
     }
     const resData = await res.json();
     const lastName = resData.result[0].lastName;
@@ -21,6 +21,6 @@ export const verifyCodeforces = async (
     return false;
   } catch (err) {
     console.error(err);
-    throw Error("Something went wrong while verifying!");
+    throw new Error("Something went wrong while verifying!");
   }
 };

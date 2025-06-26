@@ -17,3 +17,10 @@ export const OjAccountSchema = z.object({
 });
 
 export type OJAccount = z.infer<typeof OjAccountSchema>;
+
+export type RatingHistory = {
+  date: number;
+  rank: number;
+  contestTitle: string;
+  rating: number;
+};

@@ -5,6 +5,7 @@ import { config } from "dotenv";
 import tagRoutes from "./routes/tags";
 import sheetRoutes from "./routes/sheet";
 import profileRoutes from "./routes/profile";
+import ratingRoutes from "./routes/ratings";
 
 config({ path: "./../../.env" });
 
@@ -16,6 +17,7 @@ app.route("/api/v1/", problemRoutes);
 app.route("/api/v1/", tagRoutes);
 app.route("/api/v1/", sheetRoutes);
 app.route("/api/v1/", profileRoutes);
+app.route("/api/v1/", ratingRoutes);
 
 if (import.meta.main) {
   Bun.serve({

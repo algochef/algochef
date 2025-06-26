@@ -1,10 +1,9 @@
 import { Hono } from "hono";
-import {
-  getSheets,
-  getSheetsSections,
-  postAddSheet,
-} from "../controllers/sheetController";
+
 import { setUserAuthHeader, getAuthHeader } from "../controllers/middleware";
+import { getSheets } from "../controllers/sheet/getSheets";
+import { getSheetsSections } from "../controllers/sheet/getSheetSections";
+import { postAddSheet } from "../controllers/sheet/postAddSheet";
 
 const sheetRoutes = new Hono();
 

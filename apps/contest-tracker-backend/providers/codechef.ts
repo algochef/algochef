@@ -8,7 +8,7 @@ const getCodechefUpcomingContests = async () => {
 
     // bad status code, raise error
     if (!res.ok) {
-      throw Error("Failed to get upcoming Codechef contests");
+      throw new Error("Failed to get upcoming Codechef contests");
     }
     const resData = await res.json();
     return resData.future_contests;
@@ -29,7 +29,7 @@ export const codechefTracker = async () => {
 
       // bad status code, raise error
       if (!res.ok) {
-        throw Error("Failed to get Codechef contests");
+        throw new Error("Failed to get Codechef contests");
       }
       // get the result
       const results: [] = (await res.json()).contests;

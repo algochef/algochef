@@ -1,7 +1,7 @@
 export const addFriendHelper = async (sessionId: string, userId: number) => {
   try {
     if (!userId) {
-      throw Error("Invalid handle!");
+      throw new Error("Invalid handle!");
     }
     const res = await fetch(`https://cses.fi/user/${userId}/add`, {
       headers: {

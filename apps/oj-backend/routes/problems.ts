@@ -1,9 +1,8 @@
 import { Hono } from "hono";
-import {
-  getProblems,
-  postAddProblem,
-  postProblemDetails,
-} from "../controllers/problemController";
+
+import { getProblems } from "../controllers/problem/getProblems";
+import { postAddProblem } from "../controllers/problem/postAddProblem";
+import { postProblemDetails } from "../controllers/problem/postProblemDetails";
 
 const problemRoutes = new Hono();
 

@@ -5,6 +5,7 @@ import OJHandlesStats from "./oj-handles-stats";
 import UserProgressBar from "./user-progress";
 import { fetchUserInfo } from "@/lib/profile/fetch-user-info";
 import { redirect } from "next/navigation";
+import RatingsCard from "./ratings-card";
 
 const UserProfile = async ({ username }: { username: string }) => {
   console.log("UserProfile", username);
@@ -40,7 +41,10 @@ const UserProfile = async ({ username }: { username: string }) => {
           </div>
         </div>
         <div>
-          <OJHandlesStats />
+          <OJHandlesStats handles={userInfo.ojHandles} />
+        </div>
+        <div>
+          <RatingsCard handles={userInfo.ojHandles} />
         </div>
       </div>
     </div>

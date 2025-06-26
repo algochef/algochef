@@ -215,5 +215,5 @@ export const getLeetcodeProfileStats = async (handle: string) => {
 //   // console.log(await getLeetCodeSolveCount('terminalwarlord'));
 //   // console.log(await getLeetcodeProfileStats('terminalwarlord'));
 //   console.log(await getLeetcodeProfileStats("fjzzq2002"));
-//   console.log(await getLeetcodeProfileStats("sveta2125"));
+//   console.log(await getLeetcodeRating("sveta2125"));
 // })();

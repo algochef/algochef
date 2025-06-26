@@ -7,7 +7,7 @@ export const verifyCodechef = async (
   try {
     const res = await fetch("https://www.codechef.com/users/" + handle);
     if (!res.ok) {
-      throw Error("Couldn't make CC API request!");
+      throw new Error("Couldn't make CC API request!");
     }
     const $ = cheerio.load(await res.text());
     const name = $(".user-details-container > header >h1.h2-style")
@@ -20,6 +20,6 @@ export const verifyCodechef = async (
     return false;
   } catch (err) {
     console.error(err);
-    throw Error("Something went wrong while verifying!");
+    throw new Error("Something went wrong while verifying!");
   }
 };

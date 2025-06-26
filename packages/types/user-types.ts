@@ -21,6 +21,17 @@ export interface OjHandles {
   handle: string;
   verified: boolean;
   platform: Platform;
+  // ratingHistory RatingHistory[]
+  rating: number;
+  maxRating?: number;
+  totalSolved: number;
+  totalContests?: number;
+  easySolved?: number;
+  mediumSolved?: number;
+  hardSolved?: number;
+  rank?: number;
+  badge?: string;
+  lastUpdated: Date;
 }
 
 export interface Social {

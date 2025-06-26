@@ -46,7 +46,7 @@ const getPastContests = async (page: number): Promise<any[]> => {
   });
 
   if (!res.ok) {
-    throw Error("Failed to get Leetcode contests");
+    throw new Error("Failed to get Leetcode contests");
   }
   // Read the response
   const resData = await res.json();

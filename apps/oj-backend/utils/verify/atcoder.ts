@@ -7,7 +7,7 @@ export const verifyAtcoder = async (
   try {
     const res = await fetch("https://atcoder.jp/users/" + handle);
     if (!res.ok) {
-      throw Error("Couldn't make ATC API request!");
+      throw new Error("Couldn't make ATC API request!");
     }
     const $ = cheerio.load(await res.text());
     const affiliation = $(".dl-table")
@@ -24,7 +24,7 @@ export const verifyAtcoder = async (
     return false;
   } catch (err) {
     console.error(err);
-    throw Error("Something went wrong while verifying!");
+    throw new Error("Something went wrong while verifying!");
   }
 };
 

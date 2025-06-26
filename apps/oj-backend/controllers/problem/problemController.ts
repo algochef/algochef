@@ -1,7 +1,7 @@
 import type { Context } from "hono";
 import type { Variables } from "hono/types";
 import { z } from "zod";
-import { createCompanyTag, createTopicTag } from "../utils/create-tags";
+import { createCompanyTag, createTopicTag } from "../../utils/create-tags";
 
 export const postCreateCompanyTag = async (c: Context<Variables>) => {
   const schema = z.object({
