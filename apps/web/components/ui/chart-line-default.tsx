@@ -26,16 +26,16 @@ import { Platform } from "@repo/types/contest";
 import { Button } from "./button";
 import { RatingHistory } from "@repo/types/stat";
 
-export const description = "An area chart";
+export const description = "Rating history";
 
 function CustomTooltipContent({
   payload,
 }: {
-  payload?: { payload: RatingHistory }[]
+  payload?: { payload: RatingHistory }[];
 }) {
-  if (!payload || payload.length === 0) return null
+  if (!payload || payload.length === 0) return null;
 
-  const { rating, rank, contestTitle, date } = payload[0].payload;
+  const { rating, rank, contestTitle, date, delta } = payload[0].payload;
 
   const formattedDate = new Date(date * 1000).toLocaleDateString("en-GB", {
     day: "2-digit",
@@ -44,11 +44,12 @@ function CustomTooltipContent({
   });
 
   return (
-    <div className="p-3 rounded-md shadow bg-white text-sm min-w-[200px]">
-      <div className="text-lg font-bold">Rating {rating}</div>
+    <div className="p-3 rounded-md shadow bg-gray-50 text-sm min-w-[200px]">
+      <div className="text-md md:text-lg font-bold dark:text-gray-700">Rating {rating}</div>
       <div className="text-muted-foreground">{formattedDate}</div>
-      <div className="font-semibold">{contestTitle}</div>
+      <div className="font-semibold dark:text-gray-700">{contestTitle}</div>
       <div className="text-muted-foreground">Rank: {rank}</div>
+      <div className="text-muted-foreground">Change: {`${delta > 0 ? "+" : ""}` + delta}</div>
     </div>
   );
 }
@@ -56,13 +57,10 @@ function CustomTooltipContent({
 export function ChartLineDefault({
   ratingHistory,
   handlePlatformUpdate,
+  selectedPlatform
 }: {
-  ratingHistory: {
-    rank: number;
-    contestTitle: string;
-    date: number;
-    rating: number;
-  }[];
+  ratingHistory: RatingHistory[];
+  selectedPlatform: Platform,
   handlePlatformUpdate: (platform: Platform) => void;
 }) {
   const chartConfig: ChartConfig = {
@@ -82,6 +80,7 @@ export function ChartLineDefault({
         <div className="flex flex-wrap space-x-1 space-y-1 mb-4">
           <Button
             size={"sm"}
+            variant={selectedPlatform === Platform.CODEFORCES ? "default" : "outline"}
             onClick={() => {
               handlePlatformUpdate(Platform.CODEFORCES);
             }}
@@ -90,6 +89,7 @@ export function ChartLineDefault({
           </Button>
           <Button
             size={"sm"}
+            variant={selectedPlatform === Platform.LEETCODE ? "default" : "outline"}
             onClick={() => {
               handlePlatformUpdate(Platform.LEETCODE);
             }}
@@ -98,6 +98,7 @@ export function ChartLineDefault({
           </Button>
           <Button
             size={"sm"}
+            variant={selectedPlatform === Platform.CODECHEF ? "default" : "outline"}
             onClick={() => {
               handlePlatformUpdate(Platform.CODECHEF);
             }}
@@ -106,6 +107,7 @@ export function ChartLineDefault({
           </Button>
           <Button
             size={"sm"}
+            variant={selectedPlatform === Platform.ATCODER ? "default" : "outline"}
             onClick={() => {
               handlePlatformUpdate(Platform.ATCODER);
             }}

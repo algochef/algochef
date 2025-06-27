@@ -13,8 +13,8 @@ model RatingHistory {
   contestTitle String
   rating       Int
   rank         Int
-  date         BigInt
+  date         Int
   delta        Int       @default(0)
 
-  @@id([ojProfileId, platform])
+  @@id([ojProfileId, platform, date])
 }

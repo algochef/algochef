@@ -1,14 +1,12 @@
 "use client";
 
 import { ChartLineDefault } from "@/components/ui/chart-line-default";
-import { getCodechefRatingChart } from "@/lib/profile/fetch-codechef-rating";
-import { getLeetcodeRatingChart } from "@/lib/profile/fetch-leetcode-rating";
+import { fetchRatingHistory } from "@/lib/profile/fetch-rating-history";
 import { Platform } from "@repo/types/contest";
 import { OjHandles } from "@repo/types/user";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { RatingHistory } from "@repo/types/stat";
-import { getCodeforcesRatingChart } from "@/lib/profile/fetch-codeforces-rating";
 
 const selectInitialPlatform = (handles: OjHandles[]) => {
   for (const handle of handles) {
@@ -34,18 +32,9 @@ const RatingsCard = ({ handles }: { handles: OjHandles[] }) => {
       if (!profile) {
         return;
       }
+      console.info(profile, selectedPlatform);
       try {
-        let history;
-        if (selectedPlatform === Platform.LEETCODE) {
-          history = await getLeetcodeRatingChart(profile.handle);
-        } else if (selectedPlatform === Platform.CODEFORCES) {
-          history = await getCodeforcesRatingChart(profile.handle);
-        } else if (selectedPlatform === Platform.CODECHEF) {
-          history = await getCodechefRatingChart(profile.handle);
-        }
-        if (!history) {
-          throw new Error("Failed to get contest data!");
-        }
+        const history = await fetchRatingHistory(profile.handle, selectedPlatform);
         setRatingHistory(history);
       } catch (err) {
         if (err instanceof Error) {
@@ -59,17 +48,20 @@ const RatingsCard = ({ handles }: { handles: OjHandles[] }) => {
     updateHistory();
   }, [selectedPlatform, handles]);
 
+  console.log(selectedPlatform);
   const handlePlatformUpdate = (platform: Platform) => {
+    console.log(platform, "clicked")
     setSelectedPlatform(platform);
   };
 
   return (
-    <div className="w-[400px]">
+    <div className="w-8/12">
       {ratingHistory && (
         <>
           <ChartLineDefault
             ratingHistory={ratingHistory}
             handlePlatformUpdate={handlePlatformUpdate}
+            selectedPlatform={selectedPlatform}
           />
         </>
       )}

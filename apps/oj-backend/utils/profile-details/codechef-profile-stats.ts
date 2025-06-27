@@ -39,7 +39,7 @@ export const getCodeChefProfileStats = async (handle: string) => {
     const maxRating =
       parseNumber($("div.rating-header").eq(0).find("small").text().trim()) ||
       0;
-    const badge = $("span.rating").text().trim();
+    const badge = $("span.rating").text().replace('★', '').trim();
     const rank =
       parseInt(
         $("div.rating-ranks").find("li").eq(0).find("a>strong").text().trim(),

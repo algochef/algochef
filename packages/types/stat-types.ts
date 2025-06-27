@@ -23,4 +23,5 @@ export type RatingHistory = {
   rank: number;
   contestTitle: string;
   rating: number;
+  delta: number;
 };

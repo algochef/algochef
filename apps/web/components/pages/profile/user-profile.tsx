@@ -6,13 +6,12 @@ import UserProgressBar from "./user-progress";
 import { fetchUserInfo } from "@/lib/profile/fetch-user-info";
 import { redirect } from "next/navigation";
 import RatingsCard from "./ratings-card";
+import ContestRatings from "./contest-ratings";
+import { User } from "@repo/types/user";
 
-const UserProfile = async ({ username }: { username: string }) => {
-  console.log("UserProfile", username);
-  const userInfo = await fetchUserInfo(username);
-  if (!userInfo) {
-    redirect("/");
-  }
+const UserProfile = async ({ userInfo }: { userInfo: User }) => {
+  // console.log("UserProfile", username);
+
   return (
     <div className="flex w-full space-x-3">
       <UserStatCard userInfo={userInfo} />
@@ -43,8 +42,9 @@ const UserProfile = async ({ username }: { username: string }) => {
         <div>
           <OJHandlesStats handles={userInfo.ojHandles} />
         </div>
-        <div>
+        <div className="flex space-x-4">
           <RatingsCard handles={userInfo.ojHandles} />
+          <ContestRatings handles={userInfo.ojHandles} />
         </div>
       </div>
     </div>

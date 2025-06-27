@@ -49,7 +49,7 @@ export const getAtcoderProfileStats = async (handle: string) => {
       parseRank(
         $(".dl-table").eq(1).find("tr").eq(0).find("td").text().trim(),
       ) || 0;
-    const badge = $(".dl-table").eq(1).find("tr").eq(2).find("img").attr("src");
+    const badge = "https:"+$(".dl-table").eq(1).find("tr").eq(2).find("img").attr("src");
     const rating =
       parseInt(
         $(".dl-table").eq(1).find("tr").eq(1).find("td").text().trim(),
