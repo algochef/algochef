@@ -45,15 +45,19 @@ export const fetchLeetcodeRatingHistory = async (handle: string) => {
     if (!data) return null;
     const contests = data.userContestRankingHistory;
     const result: RatingHistory[] = [];
+    let prevRating = 0;
     for (const contest of contests) {
       if (contest.attended) {
-        // rank, title, rating, date
-        result.push({
+        // rank, title, rating, date, delta
+        const contestData = {
           rank: contest.ranking,
           contestTitle: contest.contest.title,
           date: contest.contest.startTime,
-          rating: Math.round(contest.rating),
-        });
+          rating: Math.round(contest.rating) || 0,
+          delta: (Math.round(contest.rating) || 0) - prevRating,
+        };
+        prevRating = contestData.rating;
+        result.push(contestData);
       }
     }
     return result;
@@ -62,3 +66,7 @@ export const fetchLeetcodeRatingHistory = async (handle: string) => {
     throw new Error("Failed to get LC contest data");
   }
 };
+
+// (async()=>{
+//   console.log(await fetchLeetcodeRatingHistory('terminalwarlord'));
+// })();

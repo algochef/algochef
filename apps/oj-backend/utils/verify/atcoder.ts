@@ -1,5 +1,7 @@
 import * as cheerio from "cheerio";
 
+
+// TODO: clean up verification code
 export const verifyAtcoder = async (
   handle: string,
   verificationCode: string,

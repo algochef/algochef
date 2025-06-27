@@ -1,10 +1,8 @@
 import { Hono } from "hono";
 import { getAuthHeader } from "../controllers/middleware";
-import {
-  getProfile,
-  getVerifyHandle,
-  postAddAHandle,
-} from "../controllers/profileController";
+import { getProfile } from "../controllers/profile/getProfile";
+import { postAddAHandle } from "../controllers/profile/postAddHandle";
+import { getVerifyHandle } from "../controllers/profile/getVerifyHandle";
 
 const profileRoutes = new Hono();
 

@@ -1,10 +1,8 @@
 import { Hono } from "hono";
-import { getLeetcodeRatingHistory } from "../controllers/ratings/leetcodeRatingController";
-import { getCodechefRatingHistory } from "../controllers/ratings/codechefRatingController";
+import { getRatingHistory } from "../controllers/ratings/ratingController";
 
 const ratingRoutes = new Hono();
 
-ratingRoutes.get("/ratings/leetcode/:handle", getLeetcodeRatingHistory);
-ratingRoutes.get("/ratings/codechef/:handle", getCodechefRatingHistory);
+ratingRoutes.get("/ratings/:platform/:handle", getRatingHistory);
 
 export default ratingRoutes;

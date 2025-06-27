@@ -39,7 +39,7 @@ export const fetchCodechefRatingHistory = async (handle: string) => {
       throw new Error("Could not find rating data in CodeChef profile");
     }
 
-    // Process the rating data into our format with Unix timestamps
+    let prevRating = 0;
     const result: RatingHistory[] = ratingData.map((contest: any) => {
       // Convert CodeChef date string to Unix timestamp
       const dateStr = contest.end_date;
@@ -61,12 +61,15 @@ export const fetchCodechefRatingHistory = async (handle: string) => {
         unixTime = 0;
       }
 
-      return {
+      const contestData: RatingHistory = {
         rank: parseInt(contest.rank) || 0,
         contestTitle: contest.name,
         date: unixTime,
-        rating: Math.round(contest.rating),
+        rating: Math.round(contest.rating) || 0,
+        delta: (Math.round(contest.rating) || 0) - prevRating,
       };
+      prevRating = contestData.rating;
+      return contestData;
     });
 
     return result;
@@ -76,6 +79,6 @@ export const fetchCodechefRatingHistory = async (handle: string) => {
   }
 };
 
-(async () => {
-  console.log(await fetchCodechefRatingHistory("jaybeeop"));
-})();
+// (async () => {
+//   console.log(await fetchCodechefRatingHistory("jaybeeop"));
+// })();
