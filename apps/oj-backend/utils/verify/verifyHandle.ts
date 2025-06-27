@@ -1,8 +1,8 @@
 import { Platform } from "@repo/types/contest";
-import { verifyAtcoder } from "./atcoder";
-import { verifyCodechef } from "./codechef";
-import { verifyCodeforces } from "./codeforces";
-import { verifyLeetcode } from "./leetcode";
+import { verifyAtcoder } from "./atcoder-verification";
+import { verifyCodechef } from "./codechef-verification";
+import { verifyCodeforces } from "./codeforces-verification";
+import { verifyLeetcode } from "./leetcode-verification";
 
 export const verifyHandle = async (
   platform: Platform,
