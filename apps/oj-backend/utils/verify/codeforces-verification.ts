@@ -9,7 +9,10 @@ export const verifyCodeforces = async (
     if (!codeforcesUserData || !codeforcesUserData.lastName) {
       return false;
     }
-    if (codeforcesUserData.lastName.toLowerCase() === verificationCode.toLowerCase()) {
+    if (
+      codeforcesUserData.lastName.toLowerCase() ===
+      verificationCode.toLowerCase()
+    ) {
       return true;
     }
     return false;
@@ -19,7 +22,6 @@ export const verifyCodeforces = async (
   }
 };
 
-
-(async()=>{
-  console.log(await verifyCodeforces('terminalwarlord', "#1"));
-})()
+(async () => {
+  console.log(await verifyCodeforces("terminalwarlord", "#1"));
+})();

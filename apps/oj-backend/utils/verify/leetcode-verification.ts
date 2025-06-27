@@ -6,10 +6,12 @@ export const verifyLeetcode = async (
 ) => {
   try {
     const leetcodeUserData = await getLeetcodeProfileStats(handle);
-    if(!leetcodeUserData || !leetcodeUserData.aboutMe){
+    if (!leetcodeUserData || !leetcodeUserData.aboutMe) {
       return false;
     }
-    if (leetcodeUserData.aboutMe.toLowerCase() === verificationCode.toLowerCase()) {
+    if (
+      leetcodeUserData.aboutMe.toLowerCase() === verificationCode.toLowerCase()
+    ) {
       return true;
     }
     return false;

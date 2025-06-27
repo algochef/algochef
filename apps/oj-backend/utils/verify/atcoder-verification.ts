@@ -9,7 +9,9 @@ export const verifyAtcoder = async (
     if (!atcoderUserData || !atcoderUserData.aboutMe) {
       return false;
     }
-    if (atcoderUserData.aboutMe.toLowerCase() === verificationCode.toLowerCase()) {
+    if (
+      atcoderUserData.aboutMe.toLowerCase() === verificationCode.toLowerCase()
+    ) {
       return true;
     }
     return false;

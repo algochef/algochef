@@ -10,7 +10,9 @@ export const verifyCodechef = async (
     if (!codechefUserData || !codechefUserData.lastName) {
       return false;
     }
-    if (codechefUserData.lastName.toLowerCase() === verificationCode.toLowerCase()) {
+    if (
+      codechefUserData.lastName.toLowerCase() === verificationCode.toLowerCase()
+    ) {
       return true;
     }
     return false;
@@ -20,7 +22,6 @@ export const verifyCodechef = async (
   }
 };
 
-(async()=>{
-    console.log(await verifyCodechef('jaybeeop', '#1'));
-})()
-
+(async () => {
+  console.log(await verifyCodechef("jaybeeop", "#1"));
+})();
