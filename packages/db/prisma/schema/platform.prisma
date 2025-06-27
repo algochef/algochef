@@ -1,19 +1,20 @@
-model LeetcodeSubmissionHistory{
-    id String @id @default(uuid())
-    problemTitle String
-    url String
-    submissionId String @unique
-    submittedAt DateTime @default(now())
+model LeetcodeSubmissionHistory {
+  id           String   @id @default(uuid())
+  problemTitle String
+  url          String
+  submissionId String   @unique
+  submittedAt  DateTime @default(now())
 }
 
 model RatingHistory {
-  id           String    @id @default(uuid())
   ojProfileId  Int
   ojProfile    OjProfile @relation(fields: [ojProfileId], references: [id], onDelete: Cascade)
   platform     Platform  @default(CODEFORCES)
   contestTitle String
   rating       Int
-  contestDate  DateTime  @default(now())
-}
+  rank         Int
+  date         BigInt
+  delta        Int       @default(0)
 
-// TODO: contribution graph
+  @@id([ojProfileId, platform])
+}
