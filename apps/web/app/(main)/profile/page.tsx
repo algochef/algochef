@@ -6,12 +6,9 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import { fetchUserInfo } from "@/lib/profile/fetch-user-info";
 import { Metadata } from "next";
 
-
-
-
 const getUserInfo = async (username: string) => {
   return await fetchUserInfo(username);
-}
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const session = await getServerSession(authOptions);
@@ -26,7 +23,6 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-
 const Profile = async () => {
   const session = await getServerSession(authOptions);
   if (!session || !session?.user) {
@@ -34,7 +30,7 @@ const Profile = async () => {
   }
   const userInfo = await getUserInfo(session.user.username);
   if (!userInfo) {
-    redirect('/');
+    redirect("/");
   }
   return <UserProfile userInfo={userInfo} />;
 };

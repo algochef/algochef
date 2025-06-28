@@ -34,7 +34,10 @@ const RatingsCard = ({ handles }: { handles: OjHandles[] }) => {
       }
       console.info(profile, selectedPlatform);
       try {
-        const history = await fetchRatingHistory(profile.handle, selectedPlatform);
+        const history = await fetchRatingHistory(
+          profile.handle,
+          selectedPlatform,
+        );
         setRatingHistory(history);
       } catch (err) {
         if (err instanceof Error) {
@@ -50,12 +53,12 @@ const RatingsCard = ({ handles }: { handles: OjHandles[] }) => {
 
   console.log(selectedPlatform);
   const handlePlatformUpdate = (platform: Platform) => {
-    console.log(platform, "clicked")
+    console.log(platform, "clicked");
     setSelectedPlatform(platform);
   };
 
   return (
-    <div className="w-8/12">
+    <div className="w-full lg:w-8/12">
       {ratingHistory && (
         <>
           <ChartLineDefault

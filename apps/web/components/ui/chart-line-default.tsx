@@ -45,11 +45,15 @@ function CustomTooltipContent({
 
   return (
     <div className="p-3 rounded-md shadow bg-gray-50 text-sm min-w-[200px]">
-      <div className="text-md md:text-lg font-bold dark:text-gray-700">Rating {rating}</div>
+      <div className="text-md md:text-lg font-bold dark:text-gray-700">
+        Rating {rating}
+      </div>
       <div className="text-muted-foreground">{formattedDate}</div>
       <div className="font-semibold dark:text-gray-700">{contestTitle}</div>
       <div className="text-muted-foreground">Rank: {rank}</div>
-      <div className="text-muted-foreground">Change: {`${delta > 0 ? "+" : ""}` + delta}</div>
+      <div className="text-muted-foreground">
+        Change: {`${delta > 0 ? "+" : ""}` + delta}
+      </div>
     </div>
   );
 }
@@ -57,10 +61,10 @@ function CustomTooltipContent({
 export function ChartLineDefault({
   ratingHistory,
   handlePlatformUpdate,
-  selectedPlatform
+  selectedPlatform,
 }: {
   ratingHistory: RatingHistory[];
-  selectedPlatform: Platform,
+  selectedPlatform: Platform;
   handlePlatformUpdate: (platform: Platform) => void;
 }) {
   const chartConfig: ChartConfig = {
@@ -80,7 +84,9 @@ export function ChartLineDefault({
         <div className="flex flex-wrap space-x-1 space-y-1 mb-4">
           <Button
             size={"sm"}
-            variant={selectedPlatform === Platform.CODEFORCES ? "default" : "outline"}
+            variant={
+              selectedPlatform === Platform.CODEFORCES ? "default" : "outline"
+            }
             onClick={() => {
               handlePlatformUpdate(Platform.CODEFORCES);
             }}
@@ -89,7 +95,9 @@ export function ChartLineDefault({
           </Button>
           <Button
             size={"sm"}
-            variant={selectedPlatform === Platform.LEETCODE ? "default" : "outline"}
+            variant={
+              selectedPlatform === Platform.LEETCODE ? "default" : "outline"
+            }
             onClick={() => {
               handlePlatformUpdate(Platform.LEETCODE);
             }}
@@ -98,7 +106,9 @@ export function ChartLineDefault({
           </Button>
           <Button
             size={"sm"}
-            variant={selectedPlatform === Platform.CODECHEF ? "default" : "outline"}
+            variant={
+              selectedPlatform === Platform.CODECHEF ? "default" : "outline"
+            }
             onClick={() => {
               handlePlatformUpdate(Platform.CODECHEF);
             }}
@@ -107,7 +117,9 @@ export function ChartLineDefault({
           </Button>
           <Button
             size={"sm"}
-            variant={selectedPlatform === Platform.ATCODER ? "default" : "outline"}
+            variant={
+              selectedPlatform === Platform.ATCODER ? "default" : "outline"
+            }
             onClick={() => {
               handlePlatformUpdate(Platform.ATCODER);
             }}

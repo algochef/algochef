@@ -14,7 +14,7 @@ const UserStatCard = ({ userInfo }: { userInfo: User }) => {
   return (
     <div className="shadow h-fit rounded-b-md">
       <div className="relative  h-fit">
-        <div className="w-[330px] h-[150px] bg-gradient-to-r from-blue-500 to-violet-500 rounded-t-lg">
+        <div className="w-full lg:w-[330px] h-[150px] bg-gradient-to-r from-blue-500 to-violet-500 rounded-t-lg">
           <div className="absolute -bottom-8 left-0 flex items-center justify-center w-full">
             <Avatar className="rounded-full border-4 w-24 h-24">
               <AvatarImage

@@ -4,14 +4,15 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import React from "react";
 
-
 const getUserInfo = async (username: string) => {
   return await fetchUserInfo(username);
-}
+};
 
-export async function generateMetadata(
-  { params }: { params: { username: string } }
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: { username: string };
+}): Promise<Metadata> {
   const userInfo = await getUserInfo((await params).username);
 
   return {

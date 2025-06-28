@@ -3,17 +3,13 @@ import StatCard from "./stat-card";
 import UserStatCard from "./user-stat-card";
 import OJHandlesStats from "./oj-handles-stats";
 import UserProgressBar from "./user-progress";
-import { fetchUserInfo } from "@/lib/profile/fetch-user-info";
-import { redirect } from "next/navigation";
 import RatingsCard from "./ratings-card";
 import ContestRatings from "./contest-ratings";
 import { User } from "@repo/types/user";
 
 const UserProfile = async ({ userInfo }: { userInfo: User }) => {
-  // console.log("UserProfile", username);
-
   return (
-    <div className="flex w-full space-x-3">
+    <div className="flex flex-col lg:flex-row w-full space-y-3 lg:space-y-0 space-x-0 lg:space-x-3">
       <UserStatCard userInfo={userInfo} />
       <div className="flex flex-col w-full space-y-4">
         <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row w-full space-x-4">
@@ -42,7 +38,7 @@ const UserProfile = async ({ userInfo }: { userInfo: User }) => {
         <div>
           <OJHandlesStats handles={userInfo.ojHandles} />
         </div>
-        <div className="flex space-x-4">
+        <div className="flex flex-col lg:flex-row space-y-3 lg:space-y-0 space-x-0 lg:space-x-4">
           <RatingsCard handles={userInfo.ojHandles} />
           <ContestRatings handles={userInfo.ojHandles} />
         </div>
