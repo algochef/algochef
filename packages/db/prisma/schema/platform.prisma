@@ -16,7 +16,7 @@ model OjProfile {
   rank          Int             @default(0)
   maxRank       Int             @default(0)
   badge         String?
-  submissions   Submissions[]
+  submissions   Submission[]
   createdAt     DateTime        @default(now())
   lastUpdated   DateTime        @updatedAt
 
@@ -45,13 +45,13 @@ model RatingHistory {
   @@id([ojProfileId, platform, date])
 }
 
-model Submissions {
+model Submission {
   id          Int       @id @default(autoincrement())
   platform    Platform
   submittedOn DateTime
   count       Int       @default(1)
   ojProfileId Int
-  ojProfile   OjProfile @relation(fields: [ojProfileId], references: [id])
+  ojProfile   OjProfile @relation(fields: [ojProfileId], references: [id], onDelete: Cascade)
 
   @@unique([ojProfileId, platform, submittedOn])
 }
