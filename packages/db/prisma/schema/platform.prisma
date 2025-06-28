@@ -1,3 +1,29 @@
+model OjProfile {
+  id            Int             @id @default(autoincrement())
+  handle        String
+  userId        Int
+  platform      Platform
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verified      Boolean         @default(false)
+  ratingHistory RatingHistory[]
+  rating        Int             @default(0)
+  maxRating     Int             @default(0)
+  totalSolved   Int             @default(0)
+  totalContests Int             @default(0)
+  easySolved    Int             @default(0)
+  mediumSolved  Int             @default(0)
+  hardSolved    Int             @default(0)
+  rank          Int             @default(0)
+  maxRank       Int             @default(0)
+  badge         String?
+  submissions   Submissions[]
+  createdAt     DateTime        @default(now())
+  lastUpdated   DateTime        @updatedAt
+
+  @@unique([userId, platform])
+  @@unique([handle, platform])
+}
+
 model LeetcodeSubmissionHistory {
   id           String   @id @default(uuid())
   problemTitle String
@@ -17,4 +43,15 @@ model RatingHistory {
   delta        Int       @default(0)
 
   @@id([ojProfileId, platform, date])
+}
+
+model Submissions {
+  id          Int       @id @default(autoincrement())
+  platform    Platform
+  submittedOn DateTime
+  count       Int       @default(1)
+  ojProfileId Int
+  ojProfile   OjProfile @relation(fields: [ojProfileId], references: [id])
+
+  @@unique([ojProfileId, platform, submittedOn])
 }
