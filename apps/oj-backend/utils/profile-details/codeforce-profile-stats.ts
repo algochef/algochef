@@ -1,4 +1,34 @@
 import { type OJAccount } from "@repo/types/stat";
+import { prismaClient } from "@repo/db/client";
+import { Platform } from "@repo/types/contest";
+import { fetchAllCodeforcesSubmissions } from "./codeforces-helper/codeforces-submission-calendar";
+
+export const fetchCodeforcesSubmissionCalendar = async (username: string) => {
+  const ojHandle = await prismaClient.ojProfile.findFirst({
+    where: {
+      handle: username,
+      platform: Platform.CODEFORCES,
+    },
+  });
+  if (!ojHandle) {
+    throw new Error("Handle doesnt exist on DB");
+  }
+  const calendar = await fetchAllCodeforcesSubmissions(username);
+  for (const item in calendar) {
+    const timestamp = Number(item);
+    const count = calendar[item] || 0;
+    const date = new Date(timestamp * 1000);
+    date.setHours(0, 0, 0, 0);
+    await prismaClient.submission.create({
+      data: {
+        count,
+        platform: Platform.CODEFORCES,
+        submittedOn: date,
+        ojProfileId: ojHandle.id,
+      },
+    });
+  }
+};
 
 // https://codeforces.com/contest/1668/submission/155877343
 const getCodeforcesBasicInfo = async (handle: string) => {

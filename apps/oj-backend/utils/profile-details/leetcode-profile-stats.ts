@@ -1,4 +1,7 @@
 import type { OJAccount } from "@repo/types/stat";
+import { fetchAllLeetcodeSubmissions } from "./leetcode-helper/leetcode-submission-calendar";
+import { prismaClient } from "@repo/db/client";
+import { Platform } from "@repo/types/contest";
 
 interface LeetCodeStats {
   totalSolved: number;
@@ -7,7 +10,43 @@ interface LeetCodeStats {
   hardSolved: number;
 }
 
-const getLeetcodeBasicInfo = async (handle: string) => {
+export const fetchLeetcodeSubmissionsCalendar = async (username: string) => {
+  try {
+    const ojHandle = await prismaClient.ojProfile.findFirst({
+      where: {
+        handle: username,
+        platform: Platform.LEETCODE,
+      },
+    });
+
+    if (!ojHandle) {
+      throw new Error("Handle doesnt exist in DB!");
+    }
+    const calendar = await fetchAllLeetcodeSubmissions(username);
+    for (const item in calendar) {
+      const timestamp = Number(item);
+      const count = calendar[item] || 0;
+      const date = new Date(timestamp * 1000);
+      date.setHours(0, 0, 0, 0);
+      await prismaClient.submission.create({
+        data: {
+          count,
+          platform: Platform.LEETCODE,
+          submittedOn: date,
+          ojProfileId: ojHandle.id,
+        },
+      });
+    }
+  } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    } else {
+      throw new Error(String(err));
+    }
+  }
+};
+
+const fetchLeetcodeBasicInfo = async (handle: string) => {
   try {
     const res = await fetch("https://leetcode.com/graphql", {
       method: "POST",
@@ -47,7 +86,7 @@ const getLeetcodeBasicInfo = async (handle: string) => {
   }
 };
 
-const getLeetCodeSolveCount = async (
+const fetchLeetCodeSolveCount = async (
   username: string,
 ): Promise<LeetCodeStats | null> => {
   const url = "https://leetcode.com/graphql";
@@ -95,19 +134,19 @@ const getLeetCodeSolveCount = async (
     return null;
   }
 
-  const getCount = (difficulty: string) =>
+  const fetchCount = (difficulty: string) =>
     submissionData.find((item: any) => item.difficulty === difficulty)?.count ||
     0;
 
   return {
-    totalSolved: getCount("All"),
-    easySolved: getCount("Easy"),
-    mediumSolved: getCount("Medium"),
-    hardSolved: getCount("Hard"),
+    totalSolved: fetchCount("All"),
+    easySolved: fetchCount("Easy"),
+    mediumSolved: fetchCount("Medium"),
+    hardSolved: fetchCount("Hard"),
   };
 };
 
-const getLeetcodeRating = async (handle: string) => {
+const fetchLeetcodeRating = async (handle: string) => {
   try {
     const res = await fetch("https://leetcode.com/graphql", {
       method: "POST",
@@ -185,18 +224,18 @@ const getLeetcodeRating = async (handle: string) => {
 };
 
 export const getLeetcodeProfileStats = async (handle: string) => {
-  let data = await getLeetcodeBasicInfo(handle);
+  let data = await fetchLeetcodeBasicInfo(handle);
   if (!data) {
     return null;
   }
-  const solvedData = (await getLeetCodeSolveCount(handle)) || {
+  const solvedData = (await fetchLeetCodeSolveCount(handle)) || {
     easySolved: 0,
     hardSolved: 0,
     mediumSolved: 0,
     totalSolved: 0,
   };
 
-  const contestData = (await getLeetcodeRating(handle)) || {
+  const contestData = (await fetchLeetcodeRating(handle)) || {
     badge: "Unrated",
     maxRating: 0,
     rating: 0,
@@ -212,8 +251,9 @@ export const getLeetcodeProfileStats = async (handle: string) => {
 };
 
 // (async () => {
-//   // console.log(await getLeetCodeSolveCount('terminalwarlord'));
+//   // console.log(await fetchLeetCodeSolveCount('terminalwarlord'));
 //   // console.log(await getLeetcodeProfileStats('terminalwarlord'));
-//   console.log(await getLeetcodeProfileStats("fjzzq2002"));
-//   console.log(await getLeetcodeRating("sveta2125"));
+//   // console.log(await getLeetcodeProfileStats("fjzzq2002"));
+//   // console.log(await fetchLeetcodeRating("sveta2125"));
+//   await fetchSubmissionsCalendar('terminalwarlord')
 // })();
