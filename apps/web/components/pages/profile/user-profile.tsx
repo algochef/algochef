@@ -6,6 +6,7 @@ import UserProgressBar from "./user-progress";
 import RatingsCard from "./ratings-card";
 import ContestRatings from "./contest-ratings";
 import { User } from "@repo/types/user";
+import SubmissionGraph from "./submission-graph";
 
 const UserProfile = async ({ userInfo }: { userInfo: User }) => {
   return (
@@ -41,6 +42,9 @@ const UserProfile = async ({ userInfo }: { userInfo: User }) => {
         <div className="flex flex-col lg:flex-row space-y-3 lg:space-y-0 space-x-0 lg:space-x-4">
           <RatingsCard handles={userInfo.ojHandles} />
           <ContestRatings handles={userInfo.ojHandles} />
+        </div>
+        <div>
+          <SubmissionGraph />
         </div>
       </div>
     </div>

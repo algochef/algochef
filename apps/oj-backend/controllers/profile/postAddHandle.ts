@@ -75,8 +75,8 @@ export const postAddAHandle = async (c: Context) => {
     },
     create: {
       userId,
-      handle,
       platform,
+      handle:handle.toLowerCase(),
       badge: details ? details.badge : undefined,
       easySolved:
         platform === Platform.LEETCODE && details ? details?.easySolved : 0,

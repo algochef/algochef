@@ -27,7 +27,7 @@ export const fetchLeetcodeSubmissionsCalendar = async (username: string) => {
       const timestamp = Number(item);
       const count = calendar[item] || 0;
       const date = new Date(timestamp * 1000);
-      date.setHours(0, 0, 0, 0);
+      date.setUTCHours(0, 0, 0, 0);
       await prismaClient.submission.create({
         data: {
           count,
