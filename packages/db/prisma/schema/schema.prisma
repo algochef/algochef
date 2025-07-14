@@ -38,22 +38,23 @@ enum SheetTheme {
 }
 
 model User {
-  id          Int         @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   email       String
   password    String
-  username    String      @unique
+  username    String       @unique
   name        String
   avatar      String?
   institution String?
-  role        Role        @default(USER)
-  provider    String      @default("credentials")
-  providerId  String?     @unique
-  createdAt   DateTime    @default(now())
+  role        Role         @default(USER)
+  provider    String       @default("credentials")
+  providerId  String?      @unique
+  createdAt   DateTime     @default(now())
   ojHandles   OjProfile[]
   bookmarks   Bookmark[]
   solved      Solved[]
   sheet       Sheet[]
   social      Social?
+  submissions Submission[]
 
   @@unique([email, provider])
 }
@@ -137,7 +138,6 @@ model CompanyTagOnProblem {
 
   @@id([problemId, companyTagId])
 }
-
 
 model Solved {
   userId    Int

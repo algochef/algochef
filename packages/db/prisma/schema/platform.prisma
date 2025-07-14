@@ -52,6 +52,9 @@ model Submission {
   count       Int       @default(1)
   ojProfileId Int
   ojProfile   OjProfile @relation(fields: [ojProfileId], references: [id], onDelete: Cascade)
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([ojProfileId, platform, submittedOn])
+  @@index([userId, platform])
+  @@index([ojProfileId, submittedOn])
 }
