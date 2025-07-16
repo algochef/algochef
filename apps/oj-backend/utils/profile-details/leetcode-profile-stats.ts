@@ -10,7 +10,10 @@ interface LeetCodeStats {
   hardSolved: number;
 }
 
-export const fetchLeetcodeSubmissionsCalendar = async (username: string) => {
+export const fetchLeetcodeSubmissionsCalendar = async (
+  username: string,
+  userId: number,
+) => {
   try {
     const ojHandle = await prismaClient.ojProfile.findFirst({
       where: {
@@ -30,6 +33,7 @@ export const fetchLeetcodeSubmissionsCalendar = async (username: string) => {
       date.setUTCHours(0, 0, 0, 0);
       await prismaClient.submission.create({
         data: {
+          userId,
           count,
           platform: Platform.LEETCODE,
           submittedOn: date,

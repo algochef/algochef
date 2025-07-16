@@ -3,7 +3,10 @@ import { prismaClient } from "@repo/db/client";
 import { Platform } from "@repo/types/contest";
 import { fetchAllCodeforcesSubmissions } from "./codeforces-helper/codeforces-submission-calendar";
 
-export const fetchCodeforcesSubmissionCalendar = async (username: string) => {
+export const fetchCodeforcesSubmissionCalendar = async (
+  username: string,
+  userId: number,
+) => {
   const ojHandle = await prismaClient.ojProfile.findFirst({
     where: {
       handle: username,
@@ -21,6 +24,7 @@ export const fetchCodeforcesSubmissionCalendar = async (username: string) => {
     date.setHours(0, 0, 0, 0);
     await prismaClient.submission.create({
       data: {
+        userId,
         count,
         platform: Platform.CODEFORCES,
         submittedOn: date,
@@ -35,8 +39,8 @@ const getCodeforcesBasicInfo = async (handle: string) => {
   try {
     const res = await fetch(
       "https://codeforces.com/api/user.info?handles=" +
-        handle +
-        "&checkHistoricHandles=false",
+      handle +
+      "&checkHistoricHandles=false",
     );
     if (!res.ok) {
       console.error("Network response was not ok:", res.statusText);
@@ -77,8 +81,8 @@ const getUsersTotalSolve = async (handle: string) => {
   try {
     const res = await fetch(
       "https://codeforces.com/api/user.status?handle=" +
-        handle +
-        "&from=1&count=100000",
+      handle +
+      "&from=1&count=100000",
     );
     if (!res.ok) {
       console.error("Network response was not ok:", res.statusText);

@@ -76,7 +76,7 @@ export const postAddAHandle = async (c: Context) => {
     create: {
       userId,
       platform,
-      handle:handle.toLowerCase(),
+      handle: handle.toLowerCase(),
       badge: details ? details.badge : undefined,
       easySolved:
         platform === Platform.LEETCODE && details ? details?.easySolved : 0,
@@ -112,9 +112,9 @@ export const postAddAHandle = async (c: Context) => {
 
   // TODO: Handle submission update on background
   if (platform === Platform.LEETCODE) {
-    await fetchLeetcodeSubmissionsCalendar(handle);
+    await fetchLeetcodeSubmissionsCalendar(handle, userId);
   } else if (platform === Platform.CODEFORCES) {
-    await fetchCodeforcesSubmissionCalendar(handle);
+    await fetchCodeforcesSubmissionCalendar(handle, userId);
   }
 
   return c.json({
